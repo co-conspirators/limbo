@@ -14,7 +14,7 @@ const Bar = (monitor: number) =>
       const tiledWindows = _.clients.filter((c) => c.workspace.id === workspaceId && !c.floating)
       return tiledWindows.length === 0 ? `background: transparent;` : `background: #1e1e2e;`
     }),
-    name: `bar-${monitor}`,
+    name: `limbo-${monitor}`,
     anchor: ['top', 'left', 'right'],
     exclusivity: 'exclusive',
     heightRequest: 40,
@@ -32,6 +32,7 @@ App.applyCss(`
     color: #f8f8f2;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
+		border-radius: 0;
   }
   menu {
     background: #2c2c3f;
