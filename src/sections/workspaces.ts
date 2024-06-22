@@ -16,6 +16,8 @@ function WorkspaceDot(workspaceId: number) {
 
   return TransparentButton({
     onPrimaryClick: () => hyprland.message(`dispatch workspace ${workspaceId}`),
+    onScrollUp: () => hyprland.message(`dispatch workspace m-1`),
+    onScrollDown: () => hyprland.message(`dispatch workspace m+1`),
     css: 'padding: 4px;',
     child: Widget.EventBox({
       child: Widget.Box({
@@ -34,5 +36,12 @@ function WorkspaceDot(workspaceId: number) {
 }
 
 export default function Workspaces(monitor: number) {
-  return Section(Array.from({ length: 6 }, (_, i) => WorkspaceDot(i + (monitor * 6 + 1))))
+  return Section(
+    Array.from({ length: 6 }, (_, i) => WorkspaceDot(i + (monitor * 6 + 1))),
+    {
+      margin: 0,
+      spacing: 0,
+      css: 'padding: 0 8px',
+    },
+  )
 }

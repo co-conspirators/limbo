@@ -16,9 +16,18 @@ export function Side(side: 'start' | 'center' | 'end', children: Gtk.Widget[]) {
 
 export function Section(
   children: Gtk.Widget[],
-  { margin = 12, spacing = 8 }: { margin?: number; spacing?: number } = {},
+  {
+    margin = 12,
+    spacing = 8,
+    css = '',
+  }: {
+    margin?: number
+    css?: string
+    spacing?: number
+  } = {},
 ) {
   const Section = Widget.Box({
+    css,
     children,
     className: 'bar-section',
     orientation: Orientation.HORIZONTAL,
