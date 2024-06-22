@@ -91,7 +91,7 @@ const Player = (player: MprisPlayer) => {
     children: [title, artist],
   })
   const playPauseIcon = Icon('play').hook(player, (icon) => {
-    icon.icon = player.play_back_status === 'Playing' ? 'pause' : 'play'
+    icon.icon = player.play_back_status === 'Playing' ? 'f-pause' : 'f-play'
   })
 
   return TransparentButton({
