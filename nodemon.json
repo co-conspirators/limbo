@@ -1,0 +1,5 @@
+{
+  "watch": ["src", "icons"],
+  "ext": "ts,svg,css",
+  "exec": "nix run github:Aylur/ags"
+}
