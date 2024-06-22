@@ -1,6 +1,4 @@
-import Left from 'src/sides/left'
-import Center from 'src/sides/center'
-import Right from 'src/sides/right'
+import { Left, Right, Center } from 'src/modules'
 
 const hyprland = await Service.import('hyprland')
 
@@ -21,9 +19,9 @@ const Bar = (monitor: number) =>
     exclusivity: 'exclusive',
     heightRequest: 40,
     child: Widget.CenterBox({
-      start_widget: Left(),
+      start_widget: Left(monitor),
       center_widget: Center(monitor),
-      end_widget: Right(),
+      end_widget: Right(monitor),
     }),
   })
 

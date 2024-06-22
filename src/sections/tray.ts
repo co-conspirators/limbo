@@ -1,6 +1,8 @@
 import { ReliefStyle } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import type { TrayItem } from 'types/service/systemtray'
 
+import { Section } from 'src/components/layout'
+
 const systemtray = await Service.import('systemtray')
 
 const SysTrayItem = (item: TrayItem) =>
@@ -14,7 +16,12 @@ const SysTrayItem = (item: TrayItem) =>
   })
 
 export default function SysTray() {
-  return Widget.Box({
-    children: systemtray.bind('items').as((i) => i.map(SysTrayItem)),
-  })
+  return Section(
+    [
+      Widget.Box({
+        children: systemtray.bind('items').as((i) => i.map(SysTrayItem)),
+      }),
+    ],
+    { margin: 4 },
+  )
 }
