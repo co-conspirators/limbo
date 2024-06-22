@@ -34,7 +34,7 @@ const Weather = () => {
     const weather = await Utils.fetch(
       `https://api.pirateweather.net/forecast/${apiToken}/${lat},${lon}?units=${unit}`,
     ).then((res) => res.json())
-    return weather.currently.temperature.toFixed(1)
+    return `${weather.currently.temperature.toFixed(1)}°C`
   })
 
   return NotificationItem('cloud-drizzle', label, () =>
@@ -47,9 +47,8 @@ const Todos = () => {
     const tasks = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
       headers: { Authorization: `Bearer ${config.todoist.apiToken}` },
     }).then((res) => res.json())
-    const todayTasks = tasks.filter(
-      (task: any) => task.due && task.due.date === new Date().toISOString().slice(0, 10),
-    )
+    const today = new Date(new Date().toISOString().slice(0, 10))
+    const todayTasks = tasks.filter((task: any) => task.due && new Date(task.due.date) <= today)
     return todayTasks.length
   })
   return NotificationItem('check-square', label, () => Utils.execAsync('xdg-open https://todoist.com'))
