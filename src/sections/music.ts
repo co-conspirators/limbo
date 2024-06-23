@@ -196,6 +196,6 @@ export default function Music() {
           .as((p) => p.filter((player) => player.name === 'spotify').map(Player)),
       }),
     ],
-    { margin: 0 },
+    { margin: 0, valign: Align.FILL },
   )
 }

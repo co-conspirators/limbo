@@ -21,10 +21,12 @@ export function Section(
     margin = 12,
     spacing = 8,
     css = '',
+    valign = Align.CENTER,
   }: {
     margin?: number
     css?: string
     spacing?: number
+    valign?: Align
   } = {},
 ) {
   const Section = Widget.Box({
@@ -32,7 +34,7 @@ export function Section(
     children,
     className: 'bar-section',
     orientation: Orientation.HORIZONTAL,
-    valign: Align.FILL,
+    valign,
     spacing,
     marginLeft: margin,
     marginRight: margin,
