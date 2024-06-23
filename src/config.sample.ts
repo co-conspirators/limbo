@@ -1,4 +1,7 @@
 const config = {
+  appLauncher: {
+    command: 'tofi-drun --drun-launch=true',
+  },
   weather: {
     // 'si' or 'us'
     unit: 'si',
@@ -23,6 +26,11 @@ const config = {
     channels: ['simply', 'tarik', 'jerma985', 'clintstevens', 'liam'],
     clientId: '***',
     clientSecret: '***',
+  },
+  modules: {
+    left: ['app-launcher', 'notifications', 'twitch', 'music'],
+    center: ['workspaces'],
+    right: ['tray', 'quick-settings', 'clock'],
   },
 }
 
