@@ -104,8 +104,8 @@ const changeSpotifyVolume = (raise: boolean) => {
   if (!spotifyStream) return
 
   const newVolume = raise
-    ? Math.min(1, spotifyStream.volume + 0.1) // if raise
-    : Math.max(0, spotifyStream.volume - 0.1) // if lower
+    ? Math.min(1, spotifyStream.volume + 0.05) // if raise
+    : Math.max(0, spotifyStream.volume - 0.05) // if lower
 
   spotifyStream.volume = newVolume
 }
@@ -132,6 +132,7 @@ const Player = (player: MprisPlayer) => {
   })
 
   const seekbar = Widget.DrawingArea({
+    clickThrough: true,
     drawFn: (_, cr, width, height) => {
       const { color, variant } = MusicColor.value
       // Lighten the color
@@ -158,6 +159,7 @@ const Player = (player: MprisPlayer) => {
     .hook(player, (seekbar) => seekbar.queue_draw())
 
   return Widget.Overlay({
+    passThrough: true,
     child: TransparentButton({
       css: MusicColor.bind('value').as(
         ({ color, variant }) => `
@@ -170,6 +172,7 @@ const Player = (player: MprisPlayer) => {
       ),
       onClicked: () => player.playPause(),
       onMiddleClick: () => copySpotifyURL(player.metadata['xesam:url']),
+      onSecondaryClick: () => player.next(),
       onScrollUp: () => changeSpotifyVolume(true),
       onScrollDown: () => changeSpotifyVolume(false),
       child: Row([playPauseIcon, titleAndArtist, SongArt(player)], { spacing: 12 }),
