@@ -55,7 +55,7 @@ export default function Workspaces(monitor: number) {
     {
       margin: 0,
       spacing: 0,
-      css: 'padding: 0px 4px',
+      css: 'padding: 0px 6px',
     },
   )
 }
