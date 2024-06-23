@@ -31,7 +31,7 @@
         "aarch64-darwin"
       ];
 
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
+      perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
         # packages.default = pkgs.hello;
 
         devenv.shells.default = let ags = inputs'.ags.packages.default;
@@ -43,8 +43,10 @@
             devenvRootFileContent;
 
           # https://devenv.sh/reference/options/
-          packages = [
+          packages = let svg-fixer = pkgs.callPackage ./nix/svg-fixer.nix { };
+          in [
             ags
+            svg-fixer
             pkgs.nodePackages.nodemon
             # config.packages.default
           ];
@@ -57,6 +59,8 @@
           process-managers.process-compose.enable = true;
           processes.limbo.exec = "ags --config ./config.js";
           scripts.dev.exec = "nodemon";
+          scripts.fix-icons.exec =
+            "oslllo-svg-fixer -s ./tabler-icons -d ./icons";
           scripts.link-types.exec =
             "test -f ./tsconfig.json && ln -s ${ags}/share/com.github.Aylur.ags/types ./types";
         };

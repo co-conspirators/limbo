@@ -1,4 +1,6 @@
 src/config.ts
 /types
+/tabler-icons
 .devenv
 .direnv
+nix/result
