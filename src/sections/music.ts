@@ -27,7 +27,7 @@ export function SongArt(player: MprisPlayer) {
     widthRequest: 32,
     heightRequest: 32,
     /** Draws a faded image from left to right */
-    drawFn: async (_, cr, width, height) => {
+    drawFn: (_, cr, width, height) => {
       if (!existsSync(image)) return
 
       const pixBuf = GdkPixbuf.Pixbuf.new_from_file(image)
@@ -86,10 +86,10 @@ export function SongArt(player: MprisPlayer) {
   }).hook(player, async (albumArt) => {
     url = player.track_cover_url
     image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
+    // TODO: move logic out and deduplicate calls
     if (!existsSync(image)) {
-      await Utils.execAsync(`mkdir -p /tmp/ags/song-art`)
-      await Utils.execAsync(`curl -o ${image} ${url}`)
-      await new Promise<void>((resolve) => Utils.timeout(10, resolve))
+      await Utils.execAsync(`mkdir -p /tmp/ags/song-art`).catch(console.error)
+      await Utils.execAsync(`curl -o ${image} ${url}`).catch(console.error)
     }
     albumArt.queue_draw()
   })
@@ -116,7 +116,7 @@ const copySpotifyURL = (url?: string) => {
 
 const Player = (player: MprisPlayer) => {
   const artist = Widget.Label({ css: `opacity: 0.8;`, halign: Align.START }).hook(player, (label) => {
-    label.label = player.track_artists[0]
+    label.label = player.track_artists.join(', ')
   })
   const title = Widget.Label({ halign: Align.START }).hook(player, (label) => {
     label.label = player.track_title
@@ -130,6 +130,8 @@ const Player = (player: MprisPlayer) => {
   const playPauseIcon = Icon('f-play').hook(player, (icon) => {
     icon.icon = player.play_back_status === 'Playing' ? 'f-pause' : 'f-play'
   })
+
+  const songArt = SongArt(player)
 
   const seekbar = Widget.DrawingArea({
     clickThrough: true,
@@ -175,7 +177,7 @@ const Player = (player: MprisPlayer) => {
       onSecondaryClick: () => player.shuffle(),
       onScrollUp: () => changeSpotifyVolume(true),
       onScrollDown: () => changeSpotifyVolume(false),
-      child: Row([playPauseIcon, titleAndArtist, SongArt(player)], { spacing: 12 }),
+      child: Row([playPauseIcon, titleAndArtist, songArt], { spacing: 12 }),
     }),
     overlays: [seekbar],
   })

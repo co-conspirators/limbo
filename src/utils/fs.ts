@@ -4,8 +4,7 @@ export const exists = (path: string) =>
     .catch(() => false)
 export const existsSync = (path: string) => {
   try {
-    Utils.readFile(path)
-    return true
+    return Boolean(Utils.readFile(path))
   } catch {
     return false
   }
