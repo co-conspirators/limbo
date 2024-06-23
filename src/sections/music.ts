@@ -6,6 +6,7 @@ import Gdk from 'types/@girs/gdk-3.0/gdk-3.0'
 import GdkPixbuf from 'types/@girs/gdkpixbuf-2.0/gdkpixbuf-2.0'
 import { Align, Orientation } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import type { MprisPlayer } from 'types/service/mpris'
+import type { Stream } from 'types/service/audio'
 
 const mpris = await Service.import('mpris')
 
@@ -74,6 +75,19 @@ export function SongArt(url: string) {
   })
 }
 
+const audio = await Service.import('audio')
+const changeSpotifyVolume = (raise: boolean) => {
+  // @ts-expect-error - findLast actually does exist
+  const spotifyStream = audio.apps.findLast((app: Stream) => app.stream?.name === 'spotify')
+  if (!spotifyStream) return
+
+  const newVolume = raise
+    ? Math.min(1, spotifyStream.volume + 0.1) // if raise
+    : Math.max(0, spotifyStream.volume - 0.1) // if lower
+
+  spotifyStream.volume = newVolume
+}
+
 const Player = (player: MprisPlayer) => {
   const artist = Widget.Label({ css: `color: rgba(255, 255, 255, 0.8);`, halign: Align.START }).hook(
     player,
@@ -99,6 +113,8 @@ const Player = (player: MprisPlayer) => {
       ({ color }) => `background: ${color}; font-size: 10px; padding: 0px; padding-left: 12px;`,
     ),
     onClicked: () => player.playPause(),
+    onScrollUp: () => changeSpotifyVolume(true),
+    onScrollDown: () => changeSpotifyVolume(false),
     child: Row(
       player.bind('track_cover_url').as((coverUrl) => [playPauseIcon, titleAndArtist, SongArt(coverUrl)]),
       { spacing: 12 },
