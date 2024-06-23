@@ -172,7 +172,7 @@ const Player = (player: MprisPlayer) => {
       ),
       onClicked: () => player.playPause(),
       onMiddleClick: () => copySpotifyURL(player.metadata['xesam:url']),
-      onSecondaryClick: () => player.next(),
+      onSecondaryClick: () => player.shuffle(),
       onScrollUp: () => changeSpotifyVolume(true),
       onScrollDown: () => changeSpotifyVolume(false),
       child: Row([playPauseIcon, titleAndArtist, SongArt(player)], { spacing: 12 }),
