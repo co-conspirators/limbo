@@ -88,6 +88,10 @@ const changeSpotifyVolume = (raise: boolean) => {
   spotifyStream.volume = newVolume
 }
 
+const copySpotifyURL = (url?: string) => {
+  Utils.execAsync(`wl-copy ${url}`)
+}
+
 const Player = (player: MprisPlayer) => {
   const artist = Widget.Label({ css: `color: rgba(255, 255, 255, 0.8);`, halign: Align.START }).hook(
     player,
@@ -113,6 +117,7 @@ const Player = (player: MprisPlayer) => {
       ({ color }) => `background: ${color}; font-size: 10px; padding: 0px; padding-left: 12px;`,
     ),
     onClicked: () => player.playPause(),
+    onMiddleClick: () => copySpotifyURL(player.metadata['xesam:url']),
     onScrollUp: () => changeSpotifyVolume(true),
     onScrollDown: () => changeSpotifyVolume(false),
     child: Row(
