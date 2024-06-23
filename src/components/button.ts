@@ -7,7 +7,9 @@ const getTransparentButtonCSS = (extraCSS: string) => `
   box-shadow: none;
   text-shadow: none;
   -gtk-icon-shadow: none;
+  -gtk-icon-effect: none;
   color: inherit;
+
   ${extraCSS}
 `
 
