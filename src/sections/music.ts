@@ -13,6 +13,7 @@ import GdkPixbuf from 'types/@girs/gdkpixbuf-2.0/gdkpixbuf-2.0'
 import { Align, Orientation } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import type { MprisPlayer } from 'types/service/mpris'
 import type { Stream } from 'types/service/audio'
+import config from 'src/config'
 
 const mpris = await Service.import('mpris')
 
@@ -145,7 +146,7 @@ const Player = (player: MprisPlayer) => {
       const rgb = hslToRGB(hsl).map((c) => c / 255)
 
       // Mask with a rounded rectangle based on a border radius
-      const borderRadius = 4
+      const borderRadius = config.theme.borderRadius
       cr.arc(borderRadius, borderRadius, borderRadius, Math.PI, (3 * Math.PI) / 2)
       cr.arc(width - borderRadius, borderRadius, borderRadius, (3 * Math.PI) / 2, 0)
       cr.arc(width - borderRadius, height - borderRadius, borderRadius, 0, Math.PI / 2)
@@ -165,6 +166,7 @@ const Player = (player: MprisPlayer) => {
   return Widget.Overlay({
     passThrough: true,
     child: TransparentButton({
+      valign: Align.FILL,
       css: MusicColor.bind('value').as(
         ({ color, variant }) => `
           background: ${color};

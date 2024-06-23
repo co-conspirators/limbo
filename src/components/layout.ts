@@ -32,7 +32,7 @@ export function Section(
     children,
     className: 'bar-section',
     orientation: Orientation.HORIZONTAL,
-    valign: Align.CENTER,
+    valign: Align.FILL,
     spacing,
     marginLeft: margin,
     marginRight: margin,
