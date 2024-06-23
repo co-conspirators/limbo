@@ -1,7 +1,13 @@
 import { Icon, Row, Section, TransparentButton } from 'src/components'
-import { getVibrantSwatches } from 'src/utils/extract-palette'
-import { nearestNeighbor, quantizePixels, selectDarkVibrantPixel } from 'src/utils/quantize'
-import cairo from 'types/@girs/cairo-1.0'
+import {
+  hexToRGB,
+  hslToRGB,
+  rgbToHSL,
+  nearestNeighbor,
+  quantizePixels,
+  selectDarkVibrantPixel,
+} from 'src/utils/colors'
+import { existsSync } from 'src/utils/fs'
 import Gdk from 'types/@girs/gdk-3.0/gdk-3.0'
 import GdkPixbuf from 'types/@girs/gdkpixbuf-2.0/gdkpixbuf-2.0'
 import { Align, Orientation } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
@@ -10,19 +16,20 @@ import type { Stream } from 'types/service/audio'
 
 const mpris = await Service.import('mpris')
 
-const MusicColor = Variable({ color: '#1e1e2e', imageUrl: '' })
+const MusicColor = Variable({ color: '#1e1e2e', variant: 'dark', imageUrl: '' })
 
 // Takes a URL, stores the file in a temporary dir, loads it into cairo and fades the left side with a solid color
-export function SongArt(url: string) {
-  const image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
-  Utils.exec(`mkdir -p /tmp/ags/song-art`)
-  Utils.exec(`curl -o ${image} ${url}`)
+export function SongArt(player: MprisPlayer) {
+  let url = player.track_cover_url
+  let image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
 
-  return Widget.DrawingArea({
+  const albumArt = Widget.DrawingArea({
     widthRequest: 32,
     heightRequest: 32,
     /** Draws a faded image from left to right */
-    drawFn: (_, cr, width, height) => {
+    drawFn: async (_, cr, width, height) => {
+      if (!existsSync(image)) return
+
       const pixBuf = GdkPixbuf.Pixbuf.new_from_file(image)
       const imageSurface = Gdk.cairo_surface_create_from_pixbuf(pixBuf, 1, null)
 
@@ -37,10 +44,14 @@ export function SongArt(url: string) {
         const scaleDownFactor = Math.max(1, Math.floor(Math.max(width, height) / 200))
         const scaledDownPixels = nearestNeighbor(pixels, width, height, scaleDownFactor)
         const vibrantSwatches = quantizePixels(scaledDownPixels, 64)
-        const pixel = selectDarkVibrantPixel(vibrantSwatches)
+        const { pixel, luminance } = selectDarkVibrantPixel(vibrantSwatches)
         const rgbToHex = (rgb: [number, number, number]) =>
           `#${rgb.map((c) => c.toString(16).padStart(2, '0')).join('')}`
-        MusicColor.setValue({ color: rgbToHex(pixel), imageUrl: url })
+        MusicColor.setValue({
+          color: rgbToHex(pixel),
+          variant: luminance > 150 ? 'light' : 'dark',
+          imageUrl: url,
+        })
       }
 
       // Calculate the scale factor to fill the image
@@ -72,7 +83,18 @@ export function SongArt(url: string) {
         cr.restore()
       }
     },
+  }).hook(player, async (albumArt) => {
+    url = player.track_cover_url
+    image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
+    if (!existsSync(image)) {
+      await Utils.execAsync(`mkdir -p /tmp/ags/song-art`)
+      await Utils.execAsync(`curl -o ${image} ${url}`)
+      await new Promise<void>((resolve) => Utils.timeout(10, resolve))
+    }
+    albumArt.queue_draw()
   })
+
+  return albumArt
 }
 
 const audio = await Service.import('audio')
@@ -93,12 +115,9 @@ const copySpotifyURL = (url?: string) => {
 }
 
 const Player = (player: MprisPlayer) => {
-  const artist = Widget.Label({ css: `color: rgba(255, 255, 255, 0.8);`, halign: Align.START }).hook(
-    player,
-    (label) => {
-      label.label = player.track_artists[0]
-    },
-  )
+  const artist = Widget.Label({ css: `opacity: 0.8;`, halign: Align.START }).hook(player, (label) => {
+    label.label = player.track_artists[0]
+  })
   const title = Widget.Label({ halign: Align.START }).hook(player, (label) => {
     label.label = player.track_title
   })
@@ -112,18 +131,50 @@ const Player = (player: MprisPlayer) => {
     icon.icon = player.play_back_status === 'Playing' ? 'f-pause' : 'f-play'
   })
 
-  return TransparentButton({
-    css: MusicColor.bind('value').as(
-      ({ color }) => `background: ${color}; font-size: 10px; padding: 0px; padding-left: 12px;`,
-    ),
-    onClicked: () => player.playPause(),
-    onMiddleClick: () => copySpotifyURL(player.metadata['xesam:url']),
-    onScrollUp: () => changeSpotifyVolume(true),
-    onScrollDown: () => changeSpotifyVolume(false),
-    child: Row(
-      player.bind('track_cover_url').as((coverUrl) => [playPauseIcon, titleAndArtist, SongArt(coverUrl)]),
-      { spacing: 12 },
-    ),
+  const seekbar = Widget.DrawingArea({
+    drawFn: (_, cr, width, height) => {
+      const { color, variant } = MusicColor.value
+      // Lighten the color
+      const hsl = rgbToHSL(hexToRGB(color))
+      hsl[2] = Math.min(255, hsl[2] + (variant === 'dark' ? 30 : -20))
+      const rgb = hslToRGB(hsl).map((c) => c / 255)
+
+      // Mask with a rounded rectangle based on a border radius
+      const borderRadius = 4
+      cr.arc(borderRadius, borderRadius, borderRadius, Math.PI, (3 * Math.PI) / 2)
+      cr.arc(width - borderRadius, borderRadius, borderRadius, (3 * Math.PI) / 2, 0)
+      cr.arc(width - borderRadius, height - borderRadius, borderRadius, 0, Math.PI / 2)
+      cr.arc(borderRadius, height - borderRadius, borderRadius, Math.PI / 2, Math.PI)
+      cr.closePath()
+      cr.clip()
+
+      // Draw the line
+      cr.setSourceRGBA(...rgb, 1)
+      cr.rectangle(0, height - 2, width * (player.position / player.length), height)
+      cr.fill()
+    },
+  })
+    .poll(2000, (seekbar) => seekbar.queue_draw())
+    .hook(player, (seekbar) => seekbar.queue_draw())
+
+  return Widget.Overlay({
+    child: TransparentButton({
+      css: MusicColor.bind('value').as(
+        ({ color, variant }) => `
+          background: ${color};
+          color: ${variant === 'dark' ? 'white' : 'black'};
+          font-size: 10px;
+          padding: 0px; 
+          padding-left: 12px;
+        `,
+      ),
+      onClicked: () => player.playPause(),
+      onMiddleClick: () => copySpotifyURL(player.metadata['xesam:url']),
+      onScrollUp: () => changeSpotifyVolume(true),
+      onScrollDown: () => changeSpotifyVolume(false),
+      child: Row([playPauseIcon, titleAndArtist, SongArt(player)], { spacing: 12 }),
+    }),
+    overlays: [seekbar],
   })
 }
 

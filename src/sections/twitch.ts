@@ -1,5 +1,6 @@
 import { Icon, Row, Section, TransparentButton } from 'src/components'
 import config from 'src/config'
+import { exists } from 'src/utils/fs'
 import cairo from 'types/@girs/cairo-1.0/cairo-1.0'
 
 // TODO: tooltip with full info
@@ -71,11 +72,6 @@ export default function Twitch() {
   const channelsRow = Row([], { spacing: 0 }).poll(60_000, async () => {
     try {
       const channels = await makeRequest(`streams?user_login=${allowedChannels.join('&user_login=')}`)
-
-      const exists = (path: string) =>
-        Utils.readFileAsync(path)
-          .then(() => true)
-          .catch(() => false)
 
       // Download PFPs to /tmp/ags/twitch-pfp/${channel}.png
       await Utils.execAsync('mkdir -p /tmp/ags/twitch-pfp')

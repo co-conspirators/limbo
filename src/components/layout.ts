@@ -1,5 +1,6 @@
 import type Gtk from 'types/@girs/gtk-3.0/gtk-3.0'
 import { Align, Orientation } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
+import type { Binding } from 'types/service'
 
 export function Side(side: 'start' | 'center' | 'end', children: Gtk.Widget[]) {
   return Widget.Box({
@@ -43,7 +44,10 @@ export function Section(
   return Background
 }
 
-export function Row(children: Gtk.Widget[], { spacing = 8 }: { spacing?: number } = {}) {
+export function Row(
+  children: Gtk.Widget[] | Binding<any, any, Gtk.Widget[]>,
+  { spacing = 8 }: { spacing?: number } = {},
+) {
   return Widget.Box({
     children,
     orientation: Orientation.HORIZONTAL,
