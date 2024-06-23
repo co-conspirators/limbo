@@ -12,7 +12,6 @@
     nix2container.inputs.nixpkgs.follows = "nixpkgs";
     mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
     ags.url = "github:Aylur/ags";
-    ags.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   nixConfig = {

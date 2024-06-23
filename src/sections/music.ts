@@ -127,7 +127,7 @@ const Player = (player: MprisPlayer) => {
     orientation: Orientation.VERTICAL,
     children: [title, artist],
   })
-  const playPauseIcon = Icon('play').hook(player, (icon) => {
+  const playPauseIcon = Icon('f-play').hook(player, (icon) => {
     icon.icon = player.play_back_status === 'Playing' ? 'f-pause' : 'f-play'
   })
 
@@ -154,7 +154,7 @@ const Player = (player: MprisPlayer) => {
       cr.fill()
     },
   })
-    .poll(2000, (seekbar) => seekbar.queue_draw())
+    .poll(2000, (seekbar) => player.play_back_status === 'Playing' && seekbar.queue_draw())
     .hook(player, (seekbar) => seekbar.queue_draw())
 
   return Widget.Overlay({
