@@ -19,18 +19,16 @@ function WorkspaceDot(workspaceId: number) {
     onScrollUp: () => hyprland.message(`dispatch workspace m-1`),
     onScrollDown: () => hyprland.message(`dispatch workspace m+1`),
     css: 'padding: 4px;',
-    child: Widget.EventBox({
-      child: Widget.Box({
-        css: state.as(
-          ({ active, hasWindows }) => `
+    child: Widget.Box({
+      css: state.as(
+        ({ active, hasWindows }) => `
           background-color: ${active || hasWindows ? '#A4B9EF' : '#585B70'};
           border-radius: 5px;
-          transition: min-width 0.1s linear;
+          transition: min-width 0.1s ease-in-out;
           min-width: ${active ? 26 : 10}px;
           margin: 7px 3px; /* HACK: to get the right size */
         `,
-        ),
-      }),
+      ),
     }),
   })
 }
