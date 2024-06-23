@@ -127,9 +127,11 @@ const Player = (player: MprisPlayer) => {
     orientation: Orientation.VERTICAL,
     children: [title, artist],
   })
-  const playPauseIcon = Icon('f-play').hook(player, (icon) => {
-    icon.icon = player.play_back_status === 'Playing' ? 'f-pause' : 'f-play'
-  })
+  const playPauseIcon = Icon(
+    player
+      .bind('play_back_status')
+      .as((playbackStatus) => (playbackStatus === 'Playing' ? 'player-pause' : 'player-play')),
+  )
 
   const songArt = SongArt(player)
 

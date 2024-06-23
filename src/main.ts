@@ -1,4 +1,5 @@
 import { Left, Right, Center } from 'src/modules'
+import config from './config'
 
 const hyprland = await Service.import('hyprland')
 
@@ -28,26 +29,28 @@ const Bar = (monitor: number) =>
 App.addIcons(`${App.configDir}/icons`)
 App.applyCss(`
   window {
-    background: #1e1e2e;
-    color: #f8f8f2;
+    background: ${config.theme.base};
+    color: ${config.theme.text};
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
-		border-radius: 0;
+		border-radius: 0px;
   }
   menu {
-    background: #2c2c3f;
+    background: ${config.theme.core};
   }
 
   .bar-section-background {
-    background-color: #2c2c3f;
-    border-radius: 6px;
+    background-color: ${config.theme.core};
+    border-radius: ${config.theme.borderRadius}px;
   }
-
 
   .sys-tray-item {
     background: transparent;
     border: none;
     box-shadow: none;
+  }
+  .icon {
+    background: transparent;
   }
 `)
 App.config({

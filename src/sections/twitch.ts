@@ -90,5 +90,5 @@ export default function Twitch() {
     }
   })
 
-  return Section([Icon('twitch'), channelsRow], { spacing: 4 })
+  return Section([Icon('brand-twitch', { color: '#DDB6F2' }), channelsRow], { spacing: 4 })
 }

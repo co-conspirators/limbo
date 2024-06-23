@@ -6,7 +6,7 @@ export default function ApplicationLauncher() {
   return Section(
     [
       TransparentButton({
-        child: Icon('nix-snowflake-white', 18),
+        child: Icon('nix-snowflake-white', { size: 18 }),
         onPrimaryClick: () => Utils.exec(config.appLauncher.command),
       }),
     ],

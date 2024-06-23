@@ -60,7 +60,7 @@
           processes.limbo.exec = "ags --config ./config.js";
           scripts.dev.exec = "nodemon";
           scripts.fix-icons.exec =
-            "oslllo-svg-fixer -s ./tabler-icons -d ./icons";
+            "oslllo-svg-fixer -s ./icons/tabler-backup -d ./icons/tabler";
           scripts.link-types.exec =
             "test -f ./tsconfig.json && ln -s ${ags}/share/com.github.Aylur.ags/types ./types";
         };
