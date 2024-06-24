@@ -166,7 +166,6 @@ const Player = (player: MprisPlayer) => {
   return Widget.Overlay({
     passThrough: true,
     child: TransparentButton({
-      valign: Align.FILL,
       css: MusicColor.bind('value').as(
         ({ color, variant }) => `
           background: ${color};
@@ -196,6 +195,6 @@ export default function Music() {
           .as((p) => p.filter((player) => player.name === 'spotify').map(Player)),
       }),
     ],
-    { margin: 0, valign: Align.FILL },
+    { margin: 0 },
   )
 }

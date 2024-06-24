@@ -46,7 +46,7 @@ export default function Workspaces(monitor: number) {
           for (const [i, dot] of dots.entries()) {
             const dotHeight = dot.height_request
             const x = widthPerDot * i
-            const y = (height - dotHeight) / 2
+            const y = (height - dotHeight) / 2 - 1
             self.put(dot, x, y)
           }
         },
