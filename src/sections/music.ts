@@ -78,7 +78,7 @@ export function SongArt(player: MprisPlayer) {
 
         // paint the image
         cr.setSourceSurface(imageSurface, 0, 0)
-        cr.paintWithAlpha(x / width)
+        cr.paintWithAlpha(Math.min((x / width) * 2, 1))
 
         // revert the clip
         cr.restore()
