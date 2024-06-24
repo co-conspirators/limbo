@@ -18,7 +18,7 @@ const formatDate = (date: Date, alt: boolean) => {
   const month = months[date.getMonth()]
   const longDay = longDays[date.getDay()]
   return alt
-    ? `${longDay}, ${month} ${String(date.getDate()).padStart(2, '0')} ${hour}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds())} ${isAM ? 'AM' : 'PM'}`
+    ? `${longDay}, ${month} ${String(date.getDate()).padStart(2, '0')} ${hour}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')} ${isAM ? 'AM' : 'PM'}`
     : `${day} ${hour}:${String(date.getMinutes()).padStart(2, '0')} ${isAM ? 'AM' : 'PM'}`
 }
 
