@@ -10,7 +10,7 @@ export default function QuickSettings() {
       Icon('microphone', { color: '#F5C2E7' }),
       Icon('volume', { color: '#F2CDCD' }),
       Icon('wifi', { color: '#96CDFB' }),
-      Row([Icon('battery-charging', { color: '#FAE3B0' }), Label('81%', '#FAE3B0')]),
+      Row([Icon('battery-charging', { color: '#FAE3B0' }), Label('81%', { css: 'color: #FAE3B0' })]),
       Icon('chevron-down'),
     ],
     { spacing: 16 },
