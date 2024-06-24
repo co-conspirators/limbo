@@ -11,6 +11,7 @@ import Twitch from 'src/sections/twitch'
 import Workspaces from 'src/sections/workspaces'
 
 import config from 'src/config'
+import Todo from './sections/todo'
 
 // mapping of strings to modules
 const modules = {
@@ -20,6 +21,7 @@ const modules = {
   notifications: Notifications,
   'quick-settings': QuickSettings,
   sysmon: Sysmon,
+  todo: Todo,
   tray: Tray,
   twitch: Twitch,
   workspaces: Workspaces,
