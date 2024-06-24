@@ -5,6 +5,7 @@ import Clock from 'src/sections/clock'
 import Music from 'src/sections/music'
 import Notifications from 'src/sections/notifications'
 import QuickSettings from 'src/sections/quick-settings'
+import Sysmon from 'src/sections/sysmon'
 import Tray from 'src/sections/tray'
 import Twitch from 'src/sections/twitch'
 import Workspaces from 'src/sections/workspaces'
@@ -18,6 +19,7 @@ const modules = {
   music: Music,
   notifications: Notifications,
   'quick-settings': QuickSettings,
+  sysmon: Sysmon,
   tray: Tray,
   twitch: Twitch,
   workspaces: Workspaces,

@@ -31,6 +31,18 @@ const config = {
     left: ['app-launcher', 'notifications', 'twitch', 'music'],
     center: ['workspaces'],
     right: ['tray', 'quick-settings', 'clock'],
+  sysmon: {
+    // update interval in ms
+    interval: 3000,
+    // number of decimal places to round to
+    precision: 1,
+    onClick: 'hyprctl dispatch exec [float] kitty btop',
+    onRightClick: `hyprctl dispatch exec [float] kitty 'fish -c "sudo ps_mem; read -n 1 -p \"echo hey\""'`,
+    enabledSegments: ['cpu', 'temp', 'ram'],
+    // Use `sensors` to find preferred temperature source, then run
+    // $ for i in /sys/class/hwmon/hwmon*/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
+    // to find path to desired file
+    cpuTempPath: '',
   },
   theme: {
     crust: '#11111b',
