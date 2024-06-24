@@ -25,6 +25,20 @@ const config = {
       apiToken: '***',
     },
   },
+  quickSettings: {
+    icons: {
+      segments: ['brightness', 'dnd', 'mic', 'volume', 'network', 'battery', 'toggle'],
+      dnd: {
+        toggleCmd: 'makoctl mode -t do-not-disturb',
+        statusCmd: 'makoctl mode',
+        historyCmd: 'makoctl restore',
+      },
+      volume: {
+        // volume change step size, 0.05 is 5%
+        step: 0.05,
+      },
+    },
+  },
   sysmon: {
     // update interval in ms
     interval: 3000,
