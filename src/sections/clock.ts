@@ -23,14 +23,17 @@ const formatDate = (date: Date, alt: boolean) => {
 }
 
 const time = Variable('', {
-  poll: [500, () => formatDate(new Date(), AltTime.getValue())],
+  poll: [1_000, () => formatDate(new Date(), AltTime.getValue())],
 })
 
 export default function Time() {
   return Section(
     [
       TransparentButton({
-        onPrimaryClick: () => AltTime.setValue(!AltTime.getValue()),
+        onPrimaryClick: () => {
+          AltTime.setValue(!AltTime.getValue())
+          time.setValue(formatDate(new Date(), AltTime.getValue()))
+        },
         child: Row([
           Icon('clock', {
             color: config.theme.colours.green,
