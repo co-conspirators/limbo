@@ -1,3 +1,5 @@
+import { cacheDir } from './env'
+
 export const exists = (path: string) =>
   Utils.readFileAsync(path)
     .then(() => true)
@@ -9,3 +11,6 @@ export const existsSync = (path: string) => {
     return false
   }
 }
+
+export const testCache = (path: string) => exists(cacheDir + path)
+export const testCacheSync = (path: string) => existsSync(cacheDir + path)

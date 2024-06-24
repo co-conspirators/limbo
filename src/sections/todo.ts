@@ -1,9 +1,11 @@
+import { Align } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import { Row, Section } from 'src/components/layout'
 import { Icon } from 'src/components/icon'
 import { TransparentButton } from 'src/components'
+import { testCache } from 'src/utils/fs'
+import { cacheDir } from 'src/utils/env'
 
 import config from 'src/config'
-import { Align } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 
 type Task = {
   id: string
@@ -100,6 +102,26 @@ export default function Todo() {
         const { id, content } = await getNextTask()
         TaskID.setValue(id)
         TaskContent.setValue(content)
+
+        // play sound on task completion
+        const soundUrl = config.todo.completedSoundUrl
+        const filename = soundUrl.split('#')[0].split('?')[0].split('/').pop()
+        const cachedSoundFile = `${cacheDir}/todo-sound/${filename}`
+
+        if (!filename) {
+          console.error('Failed to parse sound filename')
+          return
+        }
+
+        // if the file is not cached, download it
+        if (!(await testCache(filename))) {
+          await Utils.execAsync(['curl', '--create-dirs', '--output', cachedSoundFile, soundUrl]).catch(
+            console.error,
+          )
+        }
+
+        // finally, play the sound
+        Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch(console.error)
       },
     }),
   ])
