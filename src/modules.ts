@@ -1,11 +1,11 @@
 import { Side } from 'src/components/layout'
 
 import AppLauncher from 'src/sections/app-launcher'
+import Clock from 'src/sections/clock'
 import Music from 'src/sections/music'
 import Notifications from 'src/sections/notifications'
 import QuickSettings from 'src/sections/quick-settings'
-import SysTray from 'src/sections/tray'
-import Clock from 'src/sections/clock'
+import Tray from 'src/sections/tray'
 import Twitch from 'src/sections/twitch'
 import Workspaces from 'src/sections/workspaces'
 
@@ -14,13 +14,13 @@ import config from 'src/config'
 // mapping of strings to modules
 const modules = {
   'app-launcher': AppLauncher,
-  'quick-settings': QuickSettings,
-  notifications: Notifications,
-  twitch: Twitch,
-  music: Music,
-  workspaces: Workspaces,
-  tray: SysTray,
   clock: Clock,
+  music: Music,
+  notifications: Notifications,
+  'quick-settings': QuickSettings,
+  tray: Tray,
+  twitch: Twitch,
+  workspaces: Workspaces,
 }
 
 export function Left(monitor: number) {
