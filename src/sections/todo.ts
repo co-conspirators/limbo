@@ -30,28 +30,8 @@ type Task = {
   duration: null
 }
 
-const OpenURL = Variable('https://todoist.com')
-
-const TodoLabel = (pollMS: number, get: () => Promise<any>) => {
-  const label = Widget.Label({
-    valign: Align.END,
-    label: '...',
-    css: `color: ${config.theme.colours.fg}`,
-  }).poll(pollMS, async () => {
-    try {
-      const count = await get()
-      label.label = String(count)
-    } catch (err) {
-      console.error(err)
-      label.label = 'err'
-    }
-  })
-
-  return label
-}
-
-export default function Todo() {
-  const label = TodoLabel(60_000, async () => {
+const getNextTask = async () => {
+  try {
     const tasks: Task[] = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
       headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
     }).then((res) => res.json())
@@ -59,10 +39,50 @@ export default function Todo() {
       .filter((task) => task.due && !task.due.is_recurring && new Date(task.due.date) <= new Date())
       .at(-1)
 
-    if (!nextTask) return 'No tasks due today'
+    if (!nextTask)
+      return {
+        id: '',
+        content: 'No tasks due today',
+      }
 
-    OpenURL.setValue(nextTask.url)
-    return nextTask.content
+    return nextTask
+  } catch (err) {
+    console.error(err)
+    return {
+      id: '',
+      content: 'err',
+    }
+  }
+}
+
+const completeTask = async (id: string) => {
+  try {
+    await Utils.fetch(`https://api.todoist.com/rest/v2/tasks/${id}/close`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
+    })
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+const TaskID = Variable('')
+const TaskContent = Variable('...', {
+  poll: [
+    60_000,
+    async () => {
+      const nextTask = await getNextTask()
+      TaskID.setValue(nextTask.id)
+      return nextTask.content
+    },
+  ],
+})
+
+export default function Todo() {
+  const label = Widget.Label({
+    valign: Align.END,
+    label: TaskContent.bind(),
+    css: `color: ${config.theme.colours.fg}`,
   })
 
   return Section([
@@ -70,7 +90,17 @@ export default function Todo() {
       css: `padding: 0;`,
       cursor: 'pointer',
       child: Row([Icon('square', { color: config.theme.colours.cyan }), label], { spacing: 6 }),
-      onPrimaryClick: () => Utils.execAsync('xdg-open ' + OpenURL.getValue()).catch(console.error),
+      onPrimaryClick: () =>
+        Utils.execAsync('xdg-open https://todoist.com/app/task/' + TaskID.getValue()).catch(console.error),
+      onSecondaryClick: async () => {
+        // complete task with API
+        await completeTask(TaskID.getValue())
+
+        // update task content
+        const { id, content } = await getNextTask()
+        TaskID.setValue(id)
+        TaskContent.setValue(content)
+      },
     }),
   ])
 }
