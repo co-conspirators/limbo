@@ -50,7 +50,7 @@ const weatherIconColorMapping = {
 }
 
 const Weather = () => {
-  const { unit, location, lat, lon, apiToken } = config.weather
+  const { unit, location, lat, lon, apiToken } = config.notifications.weather
 
   const weatherData = Variable(
     { icon: 'clear-day', temperature: '..' },
@@ -88,7 +88,7 @@ const Todos = () => {
   const icon = Icon('checkbox', { color: config.theme.red })
   const label = NotificationLabel(30_000, async () => {
     const tasks = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
-      headers: { Authorization: `Bearer ${config.todoist.apiToken}` },
+      headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
     }).then((res) => res.json())
     const today = new Date(new Date().toISOString().slice(0, 10))
     const todayTasks = tasks.filter((task: any) => task.due && new Date(task.due.date) <= today)
@@ -102,7 +102,7 @@ const Github = () => {
   const label = NotificationLabel(15_000, async () => {
     const notifications = await Utils.fetch('https://api.github.com/notifications', {
       headers: {
-        Authorization: `Bearer ${config.github.apiToken}`,
+        Authorization: `Bearer ${config.notifications.github.apiToken}`,
         Accept: 'application/vnd.github+json',
         'X-Github-Api-Version': '2022-11-28',
         'User-Agent': 'AGS',
