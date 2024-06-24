@@ -61,7 +61,7 @@ export function SongArt(player: MprisPlayer) {
       const scaleFactor = Math.min(width / imgWidth, height / imgHeight)
       cr.scale(scaleFactor, scaleFactor)
 
-      const borderRadius = 6
+      const borderRadius = config.theme.borderRadius
       for (let x = 0; x < width; x++) {
         // Calculate the y offset for the current x position to comply with the border radius
         // on the right side only
