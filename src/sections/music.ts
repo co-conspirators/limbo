@@ -7,7 +7,8 @@ import {
   quantizePixels,
   selectDarkVibrantPixel,
 } from 'src/utils/colors'
-import { existsSync } from 'src/utils/fs'
+import { cacheDir } from 'src/utils/env'
+import { dirname, existsSync } from 'src/utils/fs'
 import Gdk from 'types/@girs/gdk-3.0/gdk-3.0'
 import GdkPixbuf from 'types/@girs/gdkpixbuf-2.0/gdkpixbuf-2.0'
 import { Align, Orientation } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
@@ -19,10 +20,13 @@ const mpris = await Service.import('mpris')
 
 const MusicColor = Variable({ color: '#1e1e2e', variant: 'dark', imageUrl: '' })
 
+const getUrlCachePath = (url: string) => `${cacheDir}/song-art/${url.split('/').pop()}.jpg`
+
 // Takes a URL, stores the file in a temporary dir, loads it into cairo and fades the left side with a solid color
 export function SongArt(player: MprisPlayer) {
   let url = player.track_cover_url
-  let image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
+  // TODO: support file:// urls and non-jpg
+  let image = getUrlCachePath(url)
 
   const albumArt = Widget.DrawingArea({
     widthRequest: 32,
@@ -86,10 +90,10 @@ export function SongArt(player: MprisPlayer) {
     },
   }).hook(player, async (albumArt) => {
     url = player.track_cover_url
-    image = `/tmp/ags/song-art/${url.split('/').pop()}.jpg`
+    image = getUrlCachePath(url)
     // TODO: move logic out and deduplicate calls
     if (!existsSync(image)) {
-      await Utils.execAsync(`mkdir -p /tmp/ags/song-art`).catch(console.error)
+      await Utils.execAsync(`mkdir -p ${dirname(image)}`).catch(console.error)
       await Utils.execAsync(`curl -o ${image} ${url}`).catch(console.error)
     }
     albumArt.queue_draw()

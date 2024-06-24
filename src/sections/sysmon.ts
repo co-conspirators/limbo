@@ -1,27 +1,26 @@
+import type Gtk from 'types/@girs/gtk-3.0/gtk-3.0'
 import { Align } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import { Row, Section } from 'src/components/layout'
 import { Label } from 'src/components/typography'
 import { Icon } from 'src/components/icon'
-import { TransparentButton } from 'src/components'
+import { TransparentButton, mouseCommandsToButtonProps } from 'src/components'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.sysmon
 
-const interval = config.sysmon.interval
-const precision = config.sysmon.precision
-
-const idleToUsage = (usage: string) => (100 - parseFloat(usage)).toFixed(precision) + '%'
+const idleToUsage = (usage: string) => (100 - parseFloat(usage)).toFixed(config.precision) + '%'
 
 const formatSize = (sizeInKB: string) => {
   const sizeInBytes = parseInt(sizeInKB) * 1024
   const sizeInGiB = sizeInBytes / (1024 * 1024 * 1024)
   return sizeInGiB >= 1
-    ? `${sizeInGiB.toFixed(precision)} GiB`
-    : `${(sizeInGiB * 1024).toFixed(precision)} MiB`
+    ? `${sizeInGiB.toFixed(config.precision)} GiB`
+    : `${(sizeInGiB * 1024).toFixed(config.precision)} MiB`
 }
 
 export const cpu = Variable('', {
   poll: [
-    interval,
+    config.probeIntervalMs,
     'top -bn1',
     (out: string) =>
       idleToUsage(
@@ -36,12 +35,12 @@ export const cpu = Variable('', {
 })
 
 export const temp = Variable('', {
-  poll: [interval, 'cat ' + config.sysmon.cpuTempPath, (out) => out.slice(0, -3) + '°'],
+  poll: [config.probeIntervalMs, 'cat ' + config.cpu.tempPath, (out) => out.slice(0, -3) + '°'],
 })
 
 export const ram = Variable('', {
   poll: [
-    interval,
+    config.probeIntervalMs,
     'free',
     (out) =>
       formatSize(
@@ -56,7 +55,7 @@ export const ram = Variable('', {
 
 export const uptime = Variable('', {
   poll: [
-    interval,
+    config.probeIntervalMs,
     'uptime',
     (out: string) =>
       '<b>Uptime:</b> ' +
@@ -77,27 +76,18 @@ const rowProps = {
 }
 
 export default function Sysmon() {
-  const segments: any[] = []
+  const segments: Gtk.Widget[] = []
 
-  for (const segment of config.sysmon.enabledSegments) {
+  for (const segment of config.segments) {
     switch (segment) {
       case 'cpu':
-        segments.push(
-          Row([Icon('cpu', { color: config.theme.colours.purple }), Label(cpu.bind(), labelProps)], rowProps),
-        )
+        segments.push(Row([Icon(config.cpu.icon), Label(cpu.bind(), labelProps)], rowProps))
         break
       case 'temp':
-        segments.push(
-          Row(
-            [Icon('temperature', { color: config.theme.colours.red }), Label(temp.bind(), labelProps)],
-            rowProps,
-          ),
-        )
+        segments.push(Row([Icon(config.temp.icon), Label(temp.bind(), labelProps)], rowProps))
         break
       case 'ram':
-        segments.push(
-          Row([Icon('cpu-2', { color: config.theme.colours.pink }), Label(ram.bind(), labelProps)], rowProps),
-        )
+        segments.push(Row([Icon(config.ram.icon), Label(ram.bind(), labelProps)], rowProps))
         break
     }
   }
@@ -105,8 +95,7 @@ export default function Sysmon() {
   return Section(
     [
       TransparentButton({
-        onPrimaryClick: () => Utils.execAsync(config.sysmon.onClick),
-        onSecondaryClick: () => Utils.execAsync(config.sysmon.onRightClick),
+        ...mouseCommandsToButtonProps(config),
         cursor: 'pointer',
         tooltip_markup: uptime.bind(),
         child: Widget.Box({

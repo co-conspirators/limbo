@@ -12,5 +12,7 @@ export const existsSync = (path: string) => {
   }
 }
 
+export const dirname = (path: string) => path.split('/').slice(0, -1).join('/')
+
 export const testCache = (path: string) => exists(cacheDir + path)
 export const testCacheSync = (path: string) => existsSync(cacheDir + path)

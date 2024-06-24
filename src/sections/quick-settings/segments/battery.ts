@@ -2,14 +2,12 @@ import { Label, Row, TransparentButton } from 'src/components'
 import { Icon } from 'src/components/icon'
 import { buttonProps } from './utils'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.quickSettings.battery
 
 export default function Battery() {
   return TransparentButton({
-    child: Row([
-      Icon('battery-charging', { color: config.theme.colours.green }),
-      Label('81%', { css: `color: ${config.theme.colours.green}` }),
-    ]),
+    child: Row([Icon(config.rampIcons[0]), Label('81%', { css: `color: ${config.rampIcons[0].color}` })]),
     ...buttonProps,
   })
 }

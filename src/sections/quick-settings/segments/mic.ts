@@ -3,13 +3,14 @@ import { TransparentButton } from 'src/components'
 import { Icon } from 'src/components/icon'
 import { buttonProps, newVolume } from './utils'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.quickSettings.mic
 
 const audio = await Service.import('audio')
 
 export default function Mic() {
   return TransparentButton({
-    child: Icon('microphone', { color: config.theme.colours.orange }),
+    child: Icon(config.icon),
     ...buttonProps,
     onPrimaryClick: () => {
       audio.microphone.is_muted = !audio.microphone.is_muted

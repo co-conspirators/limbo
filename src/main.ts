@@ -1,5 +1,6 @@
 import { Left, Right, Center } from 'src/modules'
-import config from './config'
+import allConfig from './config'
+const config = allConfig.bar
 
 const hyprland = await Service.import('hyprland')
 
@@ -29,19 +30,19 @@ const Bar = (monitor: number) =>
 App.addIcons(`${App.configDir}/icons`)
 App.applyCss(`
   window {
-    background: ${config.theme.colours.bg};
-    color: ${config.theme.colours.fg};
-    font-family: '${config.theme.font}', 'Symbols Nerd Font', monospace;
+    background: ${config.theme.bg};
+    color: ${config.theme.fg};
+    font-family: '${allConfig.theme.font}', 'Symbols Nerd Font', monospace;
     font-size: 14px;
 		border-radius: 0px;
   }
   menu {
-    background: ${config.theme.colours.bg};
+    background: ${config.theme.bg};
   }
 
   .bar-section-background {
-    background-color: ${config.theme.colours.bgAlt};
-    border-radius: ${config.theme.borderRadius}px;
+    background-color: ${config.theme.sectionBg};
+    border-radius: ${allConfig.theme.borderRadius}px;
   }
 
   .sys-tray-item {

@@ -1,6 +1,7 @@
 import { Section, TransparentButton } from 'src/components'
+import allConfig from 'src/config'
 
-import config from 'src/config'
+const config = allConfig.bar.workspaces
 
 const hyprland = await Service.import('hyprland')
 
@@ -24,7 +25,7 @@ function WorkspaceDot(workspaceId: number) {
     child: Widget.Box({
       css: state.as(
         ({ active, hasWindows }) => `
-          background-color: ${active || hasWindows ? config.theme.colours.cyan : config.theme.colours.blue};
+          background-color: ${active ? config.color.active : hasWindows ? config.color.hasWindows : config.color.normal};
           border-radius: 5px;
           transition: all 0.1s ease-in-out;
           min-width: ${active ? 22 : 10}px;
@@ -44,7 +45,7 @@ export default function Workspaces(monitor: number) {
           const width = self.width_request
           const widthPerDot = width / 6
           const height = self.get_allocated_height()
-          const dots = Array.from({ length: 6 }, (_, i) => WorkspaceDot(i + 1 + monitor * 6))
+          const dots = config.monitors[monitor].workspaces.map(WorkspaceDot)
           for (const [i, dot] of dots.entries()) {
             const dotHeight = dot.height_request
             const x = widthPerDot * i

@@ -1,8 +1,7 @@
 import type { ButtonProps } from 'types/widgets/button'
 
-import config from 'src/config'
-
-const step = config.quickSettings.icons.volume.step
+import allConfig from 'src/config'
+const step = allConfig.bar.quickSettings.volume.step
 
 export const newVolume = (current: number, raise: boolean) =>
   raise

@@ -1,3 +1,4 @@
+import type { MouseCommands } from 'src/config'
 import { Align, ReliefStyle } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import type { ButtonProps } from 'types/widgets/button'
 
@@ -25,3 +26,17 @@ export const TransparentButton = (props: ButtonProps) =>
         ? props.css.as((css) => getTransparentButtonCSS(css))
         : getTransparentButtonCSS(props.css ?? ''),
   })
+
+const handlerKeys: (keyof MouseCommands)[] = [
+  'onPrimaryClick',
+  'onSecondaryClick',
+  'onMiddleClick',
+  'onScrollUp',
+  'onScrollDown',
+] as const
+export const mouseCommandsToButtonProps = (handlers: MouseCommands) =>
+  Object.fromEntries(
+    Object.entries(handlers)
+      .filter(([key, handler]) => handlerKeys.includes(key as keyof MouseCommands) && handler !== undefined)
+      .map(([key, handler]) => [key, () => Utils.execAsync(handler)]),
+  )

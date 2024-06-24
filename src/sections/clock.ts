@@ -3,7 +3,8 @@ import { Row, Section } from 'src/components/layout'
 import { Icon } from 'src/components/icon'
 import { Label, TransparentButton } from 'src/components'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.clock
 
 const AltTime = Variable(false)
 
@@ -11,6 +12,7 @@ const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 const longDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
+// TODO: support 12/24 hour time
 const formatDate = (date: Date, alt: boolean) => {
   const isAM = date.getHours() < 12
   const hour = [0, 12].includes(date.getHours()) ? 12 : date.getHours() % 12
@@ -35,9 +37,7 @@ export default function Time() {
           time.setValue(formatDate(new Date(), AltTime.getValue()))
         },
         child: Row([
-          Icon('clock', {
-            color: config.theme.colours.green,
-          }),
+          Icon(config.icon),
           Label(time.bind(), {
             label: time.bind(),
             valign: Align.END,

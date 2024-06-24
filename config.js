@@ -1,5 +1,5 @@
 const entry = App.configDir + '/src/main.ts'
-const outdir = '/tmp/ags/js'
+const outdir = `${Utils.exec('pwd')}/build`
 
 try {
   await Utils.execAsync([
@@ -12,6 +12,8 @@ try {
     'resource://*',
     '--external',
     'gi://*',
+    '--external',
+    '../user-config',
   ])
   await import(`file://${outdir}/main.js`)
 } catch (error) {

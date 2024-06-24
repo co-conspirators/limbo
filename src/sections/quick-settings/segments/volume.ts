@@ -3,13 +3,14 @@ import { TransparentButton } from 'src/components'
 import { Icon } from 'src/components/icon'
 import { buttonProps, newVolume } from './utils'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.quickSettings.volume
 
 const audio = await Service.import('audio')
 
 export default function Volume() {
   return TransparentButton({
-    child: Icon('volume', { color: config.theme.colours.red }),
+    child: Icon(config.rampIcons[0]),
     ...buttonProps,
     onPrimaryClick: () => {
       audio.speaker.is_muted = !audio.speaker.is_muted

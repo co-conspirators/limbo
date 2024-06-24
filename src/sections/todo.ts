@@ -35,7 +35,7 @@ type Task = {
 const getNextTask = async () => {
   try {
     const tasks: Task[] = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
-      headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
+      headers: { Authorization: `Bearer ${config.bar.notifications.todoist.apiToken}` },
     }).then((res) => res.json())
     const nextTask = tasks
       .filter((task) => task.due && !task.due.is_recurring && new Date(task.due.date) <= new Date())
@@ -62,7 +62,7 @@ const completeTask = async (id: string, undo = false) => {
     const url = `https://api.todoist.com/rest/v2/tasks/${id}/${undo ? 'reopen' : 'close'}`
     const status = await Utils.fetch(url, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
+      headers: { Authorization: `Bearer ${config.bar.notifications.todoist.apiToken}` },
     }).then((res) => res.status)
 
     return status === 204
@@ -88,14 +88,15 @@ export default function Todo() {
   const label = Widget.Label({
     valign: Align.END,
     label: TaskContent.bind(),
-    css: `color: ${config.theme.colours.fg}`,
   })
 
   return Section([
     TransparentButton({
       css: `padding: 0;`,
       cursor: 'pointer',
-      child: Row([Icon('square', { color: config.theme.colours.cyan }), label], { spacing: 6 }),
+      child: Row([Icon({ name: 'square', color: config.bar.notifications.todoist.icon.color }), label], {
+        spacing: 6,
+      }),
       onPrimaryClick: () =>
         Utils.execAsync('xdg-open https://todoist.com/app/task/' + TaskID.getValue()).catch(console.error),
       onSecondaryClick: async () => {
@@ -109,7 +110,8 @@ export default function Todo() {
         TaskContent.setValue(content)
 
         // play sound on task completion
-        const soundUrl = config.todo.completedSoundUrl
+        // TODO: make configurable
+        const soundUrl = 'https://todoist.b-cdn.net/assets/sounds/d8040624c9c7c88aa730f73faa60cf39.mp3'
         const filename = soundUrl.split('#')[0].split('?')[0].split('/').pop()
         const cachedSoundFile = `${cacheDir}/todo-sound/${filename}`
 

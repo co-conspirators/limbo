@@ -2,11 +2,12 @@ import { TransparentButton } from 'src/components'
 import { Icon } from 'src/components/icon'
 import { buttonProps } from './utils'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.quickSettings.brightness
 
 export default function Brightness() {
   return TransparentButton({
-    child: Icon('sun', { color: config.theme.colours.yellow }),
+    child: Icon(config.rampIcons[0]),
     ...buttonProps,
     cursor: 'ns-resize',
     // onScrollUp: () => {

@@ -1,14 +1,15 @@
-import { Section, Icon, TransparentButton } from 'src/components'
+import { Section, Icon, TransparentButton, mouseCommandsToButtonProps } from 'src/components'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.appLauncher
 
 export default function ApplicationLauncher() {
   return Section(
     [
       TransparentButton({
         css: `padding: 0px 8px;`,
-        child: Icon('nix-snowflake-white', { size: 18 }),
-        onPrimaryClick: () => Utils.exec(config.appLauncher.command),
+        child: Icon({ ...config.icon, size: 18 }),
+        ...mouseCommandsToButtonProps(config),
       }),
     ],
     { margin: 0 },

@@ -1,7 +1,9 @@
 import { Icon, Row, Section, TransparentButton } from 'src/components'
-import config from 'src/config'
+import allConfig from 'src/config'
 import { exists } from 'src/utils/fs'
 import cairo from 'types/@girs/cairo-1.0/cairo-1.0'
+
+const config = allConfig.bar.twitch
 
 // TODO: tooltip with full info
 export function TwitchPfp(name: string) {
@@ -46,7 +48,7 @@ export function TwitchPfp(name: string) {
 }
 
 export default function Twitch() {
-  const { clientId, clientSecret, channels: allowedChannels } = config.twitch
+  const { clientId, clientSecret, channels: allowedChannels } = config
   const appAccessTokenPromise = Utils.fetch('https://id.twitch.tv/oauth2/token', {
     method: 'POST',
     headers: {
@@ -90,5 +92,5 @@ export default function Twitch() {
     }
   })
 
-  return Section([Icon('brand-twitch', { color: '#DDB6F2' }), channelsRow], { spacing: 4 })
+  return Section([Icon(config.icon), channelsRow], { spacing: 4 })
 }

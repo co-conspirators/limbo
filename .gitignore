@@ -1,6 +1,10 @@
-src/config.ts
+/user-config.js
+/build
+
+# dev
 /types
-/tabler-icons
+
+# nix
 .devenv
 .direnv
 nix/result
