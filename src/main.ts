@@ -31,7 +31,7 @@ App.applyCss(`
   window {
     background: ${config.theme.colours.bg};
     color: ${config.theme.colours.fg};
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: '${config.theme.font}', 'Symbols Nerd Font', monospace;
     font-size: 14px;
 		border-radius: 0px;
   }

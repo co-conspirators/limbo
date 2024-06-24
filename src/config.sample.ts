@@ -58,6 +58,7 @@ const config = {
     clientSecret: '***',
   },
   theme: {
+    font: 'IBM Plex Mono',
     borderRadius: 4,
     colours: {
       fg: '#f0f4ff',
