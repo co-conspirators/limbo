@@ -29,18 +29,18 @@ const Bar = (monitor: number) =>
 App.addIcons(`${App.configDir}/icons`)
 App.applyCss(`
   window {
-    background: ${config.theme.base};
-    color: ${config.theme.text};
+    background: ${config.theme.colours.bg};
+    color: ${config.theme.colours.fg};
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
 		border-radius: 0px;
   }
   menu {
-    background: ${config.theme.core};
+    background: ${config.theme.colours.bg};
   }
 
   .bar-section-background {
-    background-color: ${config.theme.core};
+    background-color: ${config.theme.colours.bgAlt};
     border-radius: ${config.theme.borderRadius}px;
   }
 

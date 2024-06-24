@@ -1,7 +1,10 @@
 import { Icon, Row, Section, TransparentButton } from 'src/components'
 import type { Label } from 'types/widgets/label'
 import type BaseIcon from 'types/widgets/icon'
+
 import config from 'src/config'
+
+const colours = config.theme.colours
 
 const NotificationItem = (icon: BaseIcon<unknown>, label: Label<unknown>, onPrimaryClick: () => any) =>
   TransparentButton({
@@ -11,7 +14,7 @@ const NotificationItem = (icon: BaseIcon<unknown>, label: Label<unknown>, onPrim
   })
 
 const NotificationLabel = (pollMS: number, get: () => Promise<any>) => {
-  const label = Widget.Label('..').poll(pollMS, async () => {
+  const label = Widget.Label({ label: '..', css: `color: ${colours.fg}` }).poll(pollMS, async () => {
     try {
       const count = await get()
       label.label = String(count)
@@ -37,16 +40,16 @@ const weatherIconMapping = {
   'partly-cloudy-night': 'haze-moon',
 }
 const weatherIconColorMapping = {
-  'clear-day': config.theme.yellow,
-  'clear-night': config.theme.blue,
-  rain: config.theme.blue,
-  snow: config.theme.text,
-  sleet: config.theme.text,
-  wind: config.theme.text,
-  fog: config.theme.surface1,
-  cloudy: config.theme.surface2,
-  'partly-cloudy-day': config.theme.yellow,
-  'partly-cloudy-night': config.theme.blue,
+  'clear-day': colours.yellow,
+  'clear-night': colours.blue,
+  rain: colours.blue,
+  snow: colours.fg,
+  sleet: colours.fg,
+  wind: colours.fg,
+  fog: colours.bgAlt,
+  cloudy: colours.bgAlt,
+  'partly-cloudy-day': colours.yellow,
+  'partly-cloudy-night': colours.blue,
 }
 
 const Weather = () => {
@@ -85,7 +88,7 @@ const Weather = () => {
 }
 
 const Todos = () => {
-  const icon = Icon('checkbox', { color: config.theme.red })
+  const icon = Icon('checkbox', { color: colours.red })
   const label = NotificationLabel(30_000, async () => {
     const tasks = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
       headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
@@ -98,7 +101,7 @@ const Todos = () => {
 }
 
 const Github = () => {
-  const icon = Icon('brand-github', { color: config.theme.text })
+  const icon = Icon('brand-github', { color: colours.fg })
   const label = NotificationLabel(15_000, async () => {
     const notifications = await Utils.fetch('https://api.github.com/notifications', {
       headers: {

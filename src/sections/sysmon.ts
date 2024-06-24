@@ -83,20 +83,20 @@ export default function Sysmon() {
     switch (segment) {
       case 'cpu':
         segments.push(
-          Row([Icon('cpu', { color: config.theme.mauveDark }), Label(cpu.bind(), labelProps)], rowProps),
+          Row([Icon('cpu', { color: config.theme.colours.purple }), Label(cpu.bind(), labelProps)], rowProps),
         )
         break
       case 'temp':
         segments.push(
           Row(
-            [Icon('temperature', { color: config.theme.redDark }), Label(temp.bind(), labelProps)],
+            [Icon('temperature', { color: config.theme.colours.red }), Label(temp.bind(), labelProps)],
             rowProps,
           ),
         )
         break
       case 'ram':
         segments.push(
-          Row([Icon('cpu-2', { color: config.theme.pink }), Label(ram.bind(), labelProps)], rowProps),
+          Row([Icon('cpu-2', { color: config.theme.colours.pink }), Label(ram.bind(), labelProps)], rowProps),
         )
         break
     }

@@ -1,5 +1,7 @@
 import { Section, TransparentButton } from 'src/components'
 
+import config from 'src/config'
+
 const hyprland = await Service.import('hyprland')
 
 function WorkspaceDot(workspaceId: number) {
@@ -22,7 +24,7 @@ function WorkspaceDot(workspaceId: number) {
     child: Widget.Box({
       css: state.as(
         ({ active, hasWindows }) => `
-          background-color: ${active || hasWindows ? '#A4B9EF' : '#585B70'};
+          background-color: ${active || hasWindows ? config.theme.colours.cyan : config.theme.colours.blue};
           border-radius: 5px;
           transition: all 0.1s ease-in-out;
           min-width: ${active ? 22 : 10}px;
