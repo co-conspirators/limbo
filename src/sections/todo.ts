@@ -57,17 +57,21 @@ const getNextTask = async () => {
   }
 }
 
-const completeTask = async (id: string) => {
+const completeTask = async (id: string, undo = false) => {
   try {
-    await Utils.fetch(`https://api.todoist.com/rest/v2/tasks/${id}/close`, {
+    const url = `https://api.todoist.com/rest/v2/tasks/${id}/${undo ? 'reopen' : 'close'}`
+    const status = await Utils.fetch(url, {
       method: 'POST',
       headers: { Authorization: `Bearer ${config.notifications.todoist.apiToken}` },
-    })
+    }).then((res) => res.status)
+
+    return status === 204
   } catch (err) {
     console.error(err)
   }
 }
 
+const PrevTaskID = Variable('')
 const TaskID = Variable('')
 const TaskContent = Variable('...', {
   poll: [
@@ -99,6 +103,7 @@ export default function Todo() {
         await completeTask(TaskID.getValue())
 
         // update task content
+        PrevTaskID.setValue(TaskID.getValue())
         const { id, content } = await getNextTask()
         TaskID.setValue(id)
         TaskContent.setValue(content)
@@ -122,6 +127,20 @@ export default function Todo() {
 
         // finally, play the sound
         Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch(console.error)
+      },
+      onMiddleClick: async () => {
+        if (!PrevTaskID.getValue()) return
+
+        // undo task completion with API
+        await completeTask(PrevTaskID.getValue(), true)
+
+        // update task content
+        const { id, content } = await getNextTask()
+        TaskID.setValue(id)
+        TaskContent.setValue(content)
+
+        // unset PrevTaskID
+        PrevTaskID.setValue('')
       },
     }),
   ])
