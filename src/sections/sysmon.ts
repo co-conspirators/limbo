@@ -8,7 +8,10 @@ import { TransparentButton, mouseCommandsToButtonProps } from 'src/components'
 import allConfig from 'src/config'
 const config = allConfig.bar.sysmon
 
-const idleToUsage = (usage: string) => (100 - parseFloat(usage)).toFixed(config.precision) + '%'
+const idleToUsage = (usage: string) => {
+  console.log(usage)
+  return (100 - parseFloat(usage)).toFixed(config.precision) + '%'
+}
 
 const formatSize = (sizeInKB: string) => {
   const sizeInBytes = parseInt(sizeInKB) * 1024
@@ -29,7 +32,8 @@ export const cpu = Variable('', {
           .split('\n')
           .find((line) => line.includes('Cpu(s)'))
           .split(',')[3]
-          .split(/\s/)[1],
+          .split(/\s/)
+          .filter(Boolean)[0],
       ),
   ],
 })
