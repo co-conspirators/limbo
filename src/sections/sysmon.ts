@@ -8,10 +8,7 @@ import { TransparentButton, mouseCommandsToButtonProps } from 'src/components'
 import allConfig from 'src/config'
 const config = allConfig.bar.sysmon
 
-const idleToUsage = (usage: string) => {
-  console.log(usage)
-  return (100 - parseFloat(usage)).toFixed(config.precision) + '%'
-}
+const idleToUsage = (usage: string) => (100 - parseFloat(usage)).toFixed(config.precision) + '%'
 
 const formatSize = (sizeInKB: string) => {
   const sizeInBytes = parseInt(sizeInKB) * 1024
