@@ -9,7 +9,6 @@ export const newVolume = (current: number, raise: boolean) =>
     : Math.round(Math.max(0, current - step) / step) * step
 
 export const buttonProps: ButtonProps = {
-  cursor: 'pointer',
   css: `
 			margin: 0;
 			padding: 0;

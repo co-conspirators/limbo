@@ -54,11 +54,14 @@ export default function Weather() {
     color: weatherData.bind('value').as(({ icon }) => weatherIconColorMapping[icon]),
   })
 
-  const label = NotificationLabel(10 * 60_000, async () => {
-    const weather = await Utils.fetch(
-      `https://api.pirateweather.net/forecast/${apiToken}/${lat},${lon}?units=${unit}`,
-    ).then((res) => res.json())
-    return `${weather.currently.temperature.toFixed(1)}°C`
+  const label = Widget.Label({
+    label: '..',
+  }).hook(weatherData, (label) => {
+    if (typeof weatherData.value.temperature !== 'number') {
+      label.label = '..'
+    } else {
+      label.label = `${weatherData.value.temperature.toFixed(1)}°C`
+    }
   })
 
   return NotificationItem(icon, label, config)

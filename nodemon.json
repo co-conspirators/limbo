@@ -1,5 +1,5 @@
 {
-  "watch": ["src", "icons"],
+  "watch": ["src", "icons", "user-config.js"],
   "ext": "ts,svg,css",
   "exec": "ags --config ./config.js"
 }

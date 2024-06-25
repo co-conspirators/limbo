@@ -63,8 +63,8 @@ const theme = {
 
 const config: Config = {
   general: {
-    unit: 'metric',
     timeFormat: '12h',
+    unit: 'metric',
     lat: 0,
     lon: 0,
   },
@@ -81,7 +81,7 @@ const config: Config = {
     modules: {
       left: ['app-launcher', 'notifications', 'twitch'],
       center: ['workspaces'],
-      right: ['tray', 'sysmon', 'quick-settings', 'clock'],
+      right: ['sysmon', 'tray', 'quick-settings', 'clock'],
     },
     appLauncher: {
       icon: { name: 'nix-snowflake-white', color: theme.text },
@@ -169,9 +169,9 @@ const config: Config = {
       },
       network: {
         rampIcons: [
-          { name: 'wifi', color: theme.sky },
-          { name: 'wifi-2', color: theme.sky },
-          { name: 'wifi-1', color: theme.sky },
+          { name: 'wifi', color: theme.blue },
+          { name: 'wifi-2', color: theme.blue },
+          { name: 'wifi-1', color: theme.blue },
         ],
         offIcon: {
           name: 'wifi-off',
@@ -242,6 +242,10 @@ const config: Config = {
           color: theme.red,
         },
       },
+    },
+    tray: {
+      ignoredApps: [],
+      appIconMappings: {},
     },
     twitch: {
       icon: {

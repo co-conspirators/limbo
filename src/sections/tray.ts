@@ -1,25 +1,48 @@
-import { ReliefStyle } from 'types/@girs/gtk-3.0/gtk-3.0.cjs'
 import type { TrayItem } from 'types/service/systemtray'
 
 import { Section } from 'src/components/layout'
+import { Icon, TransparentButton } from 'src/components'
 
-const systemtray = await Service.import('systemtray')
+import allConfig from 'src/config'
+const config = allConfig.bar.tray
+const ignoredAppsLower = config.ignoredApps.map((app) => app.toLowerCase())
 
-const SysTrayItem = (item: TrayItem) =>
-  Widget.Button({
-    className: 'sys-tray-item',
-    relief: ReliefStyle.NONE,
-    child: Widget.Icon({ size: 16 }).bind('icon', item, 'icon'),
+const systemTray = await Service.import('systemtray')
+
+const Item = (item: TrayItem) => {
+  const binding = Utils.merge([item.bind('title'), item.bind('icon')], (title, icon) => ({
+    title: title.toLowerCase(),
+    icon,
+  }))
+  const icon = binding.as(({ title, icon }) => {
+    const appIcon = config.appIconMappings[title]
+    if (appIcon) return `tabler-${appIcon.name}-symbolic`
+    return icon
+  })
+  const css = binding.as(({ title }) => {
+    const appIcon = config.appIconMappings[title]
+    if (appIcon) return `color: ${appIcon.color}`
+    return ''
+  })
+
+  return TransparentButton({
+    css: `padding: 0px 8px;`,
+    child: Widget.Icon({ icon, css }),
     tooltipMarkup: item.bind('tooltip_markup'),
     onPrimaryClick: (_, event) => item.activate(event),
     onSecondaryClick: (_, event) => item.openMenu(event),
   })
+}
 
-export default function SysTray() {
+export default function Tray() {
   return Section(
     [
       Widget.Box({
-        children: systemtray.bind('items').as((i) => i.map(SysTrayItem)),
+        children: systemTray
+          .bind('items')
+          .as((items) =>
+            items.filter((item) => !ignoredAppsLower.includes(item.title.toLowerCase())).map(Item),
+          ),
       }),
     ],
     { margin: 4 },

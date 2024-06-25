@@ -9,7 +9,6 @@ export default function Brightness() {
   return TransparentButton({
     child: Icon(config.rampIcons[0]),
     ...buttonProps,
-    cursor: 'ns-resize',
     // onScrollUp: () => {
     //   // increase brightness
     // },

@@ -7,7 +7,7 @@ export default function ApplicationLauncher() {
   return Section(
     [
       TransparentButton({
-        css: `padding: 0px 8px;`,
+        css: `padding: 0px 10px;`,
         child: Icon({ ...config.icon, size: 18 }),
         ...mouseCommandsToButtonProps(config),
       }),

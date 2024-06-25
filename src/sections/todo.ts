@@ -93,7 +93,6 @@ export default function Todo() {
   return Section([
     TransparentButton({
       css: `padding: 0;`,
-      cursor: 'pointer',
       child: Row([Icon({ name: 'square', color: config.bar.notifications.todoist.icon.color }), label], {
         spacing: 6,
       }),

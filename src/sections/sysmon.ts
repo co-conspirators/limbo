@@ -96,11 +96,10 @@ export default function Sysmon() {
     [
       TransparentButton({
         ...mouseCommandsToButtonProps(config),
-        cursor: 'pointer',
         tooltip_markup: uptime.bind(),
         child: Widget.Box({
           children: segments,
-          spacing: 8,
+          spacing: 12,
         }),
       }),
     ],

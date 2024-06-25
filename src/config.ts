@@ -183,6 +183,11 @@ type SysMon = {
   }
 } & MouseCommands
 
+type Tray = {
+  ignoredApps: string[]
+  appIconMappings: Record<string, Icon>
+}
+
 type Twitch = {
   icon: Icon
   channels: string[]
@@ -212,6 +217,7 @@ export type Config = {
     notifications: Notifications
     quickSettings: QuickSettings
     sysmon: SysMon
+    tray: Tray
     twitch: Twitch
     workspaces: Workspaces
   }
