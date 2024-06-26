@@ -130,6 +130,8 @@ const config: Config = {
       tray: {
         ignoredApps: [],
         appIconMappings: {},
+        sortFunction: (a: { title: string }, b: { title: string }) =>
+          a.title.localeCompare(b.title, undefined, { sensitivity: 'base' }),
       },
       nightLight: {
         dayTemp: 6500,

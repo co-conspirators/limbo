@@ -32,7 +32,10 @@ const Item = (item: TrayItem) => {
 export function getTrayItems(items: TrayItem[]) {
   if (allConfig.general.debug) console.log(items.map((item) => item.title))
 
-  const trayItems = items.filter((item) => !ignoredAppsLower.includes(item.title.toLowerCase())).map(Item)
+  const trayItems = items
+    .filter((item) => !ignoredAppsLower.includes(item.title.toLowerCase()))
+    .sort(config.sortFunction)
+    .map(Item)
   const trayGap = trayItems.length > 0 ? [Label('|', { css: 'margin: 0px 6px;' })] : []
   return [...trayItems, ...trayGap]
 }

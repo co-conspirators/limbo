@@ -133,6 +133,7 @@ type QuickSettings = {
   tray: {
     ignoredApps: string[]
     appIconMappings: Record<string, Icon>
+    sortFunction: (a: { title: string }, b: { title: string }) => number
   }
   brightness: {
     /** Ramp for the brightness from max to min */
