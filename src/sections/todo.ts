@@ -99,15 +99,6 @@ export default function Todo() {
       onPrimaryClick: () =>
         Utils.execAsync('xdg-open https://todoist.com/app/task/' + TaskID.getValue()).catch(console.error),
       onSecondaryClick: async () => {
-        // complete task with API
-        await completeTask(TaskID.getValue())
-
-        // update task content
-        PrevTaskID.setValue(TaskID.getValue())
-        const { id, content } = await getNextTask()
-        TaskID.setValue(id)
-        TaskContent.setValue(content)
-
         // play sound on task completion
         // TODO: make configurable
         const soundUrl = 'https://todoist.b-cdn.net/assets/sounds/d8040624c9c7c88aa730f73faa60cf39.mp3'
@@ -116,18 +107,26 @@ export default function Todo() {
 
         if (!filename) {
           console.error('Failed to parse sound filename')
-          return
+        } else {
+          // if the file is not cached, download it
+          if (!(await testCache(filename))) {
+            await Utils.execAsync(['curl', '--create-dirs', '--output', cachedSoundFile, soundUrl]).catch(
+              console.error,
+            )
+          }
+
+          // finally, play the sound
+          Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch(console.error)
         }
 
-        // if the file is not cached, download it
-        if (!(await testCache(filename))) {
-          await Utils.execAsync(['curl', '--create-dirs', '--output', cachedSoundFile, soundUrl]).catch(
-            console.error,
-          )
-        }
+        // complete task with API
+        await completeTask(TaskID.getValue())
 
-        // finally, play the sound
-        Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch(console.error)
+        // update task content
+        PrevTaskID.setValue(TaskID.getValue())
+        const { id, content } = await getNextTask()
+        TaskID.setValue(id)
+        TaskContent.setValue(content)
       },
       onMiddleClick: async () => {
         if (!PrevTaskID.getValue()) return
