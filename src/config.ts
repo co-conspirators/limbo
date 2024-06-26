@@ -116,7 +116,12 @@ type QuickSettingsSegment = {
 
 type QuickSettings = {
   segments: ('night-light' | 'brightness' | 'dnd' | 'mic' | 'volume' | 'network' | 'battery' | 'toggle')[]
-  nightLight: QuickSettingsSegment
+  nightLight: {
+    dayIcon: Icon
+    nightIcon: Icon
+    dayTemp: number
+    nightTemp: number
+  } & MouseCommands
   brightness: {
     /** Ramp for the brightness from max to min */
     rampIcons: Icon[]

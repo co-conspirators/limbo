@@ -126,7 +126,13 @@ const config: Config = {
     quickSettings: {
       segments: ['night-light', 'dnd', 'mic', 'volume', 'network', 'toggle'],
       nightLight: {
-        icon: {
+        dayTemp: 6500,
+        nightTemp: 4000,
+        dayIcon: {
+          name: 'moon-off',
+          color: theme.yellow,
+        },
+        nightIcon: {
           name: 'moon',
           color: theme.yellow,
         },
