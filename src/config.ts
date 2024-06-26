@@ -171,11 +171,11 @@ type SysMon = {
      * for i in /sys/class/hwmon/hwmon*\/temp*_input; do echo "$(<$(dirname $i)/name): $(cat ${i%_*}_label 2>/dev/null || echo $(basename ${i%_*})) $(readlink -f $i)"; done
      * to find path to desired file
      **/
-    tempPath: string
   }
   temp: {
     icon: Icon
     text?: Text
+    path: string
   }
   ram: {
     icon: Icon

@@ -228,7 +228,6 @@ const config: Config = {
           name: 'cpu',
           color: theme.lavender,
         },
-        tempPath: '',
       },
       ram: {
         icon: {
@@ -241,6 +240,7 @@ const config: Config = {
           name: 'temperature',
           color: theme.red,
         },
+        path: '',
       },
     },
     tray: {

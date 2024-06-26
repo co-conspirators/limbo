@@ -36,7 +36,7 @@ export const cpu = Variable('', {
 })
 
 export const temp = Variable('', {
-  poll: [config.probeIntervalMs, 'cat ' + config.cpu.tempPath, (out) => out.slice(0, -3) + '°'],
+  poll: [config.probeIntervalMs, 'cat ' + config.temp.path, (out) => out.slice(0, -3) + '°'],
 })
 
 export const ram = Variable('', {
