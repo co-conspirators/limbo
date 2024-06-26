@@ -25,6 +25,8 @@ type General = {
   lat: number
   /** Get from https://www.latlong.net/ */
   lon: number
+
+  debug: boolean
 }
 
 type Theme = {

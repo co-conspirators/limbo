@@ -67,6 +67,7 @@ const config: Config = {
     unit: 'metric',
     lat: 0,
     lon: 0,
+    debug: false,
   },
   theme: {
     font: 'IBM Plex Mono',
