@@ -143,6 +143,7 @@ const config: Config = {
         toggleCmd: 'dunstctl set-paused toggle',
         statusCmd: 'dunstctl is-paused',
         historyCmd: 'dunstctl history-pop',
+        dismissCmd: 'dunstctl close',
       },
       mic: {
         icon: {

@@ -26,7 +26,7 @@ export default function DnD() {
     },
     onScrollUp: () => {
       // pop notification from history
-      Utils.execAsync(config.historyCmd)
+      Utils.execAsync(config.dismissCmd)
     },
     onScrollDown: () => {
       // pop notification from history

@@ -130,6 +130,7 @@ type QuickSettings = {
     toggleCmd: string
     statusCmd: string
     historyCmd: string
+    dismissCmd: string
   }
   mic: {
     icon: Icon
