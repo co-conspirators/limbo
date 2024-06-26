@@ -53,6 +53,11 @@ App.applyCss(`
   .icon {
     background: transparent;
   }
+
+  .transparent-button {
+    padding: 0px 8px;
+    margin: 0px;
+  }
 `)
 App.config({
   windows: [Bar(0), Bar(1)],

@@ -104,9 +104,6 @@ export default function Sysmon() {
         }),
       }),
     ],
-    {
-      margin: 4,
-      spacing: 0,
-    },
+    { margin: 4 },
   )
 }

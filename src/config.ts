@@ -45,7 +45,6 @@ type ModuleName =
   | 'music'
   | 'workspaces'
   | 'sysmon'
-  | 'tray'
   | 'quick-settings'
   | 'clock'
 type Modules = {
@@ -81,6 +80,7 @@ type Clock = {
 type Notifications = {
   segments: ('weather' | 'todoist' | 'github')[]
   weather: {
+    temperature: 'apparent' | 'exact'
     icon: {
       color: {
         day: string
@@ -110,10 +110,6 @@ type Notifications = {
   } & MouseCommands
 }
 
-type QuickSettingsSegment = {
-  icon: Icon
-} & MouseCommands
-
 type QuickSettings = {
   segments: ('night-light' | 'brightness' | 'dnd' | 'mic' | 'volume' | 'network' | 'battery' | 'toggle')[]
   nightLight: {
@@ -122,6 +118,10 @@ type QuickSettings = {
     dayTemp: number
     nightTemp: number
   } & MouseCommands
+  tray: {
+    ignoredApps: string[]
+    appIconMappings: Record<string, Icon>
+  }
   brightness: {
     /** Ramp for the brightness from max to min */
     rampIcons: Icon[]
@@ -190,11 +190,6 @@ type SysMon = {
     text?: Text
   }
 } & MouseCommands
-
-type Tray = {
-  ignoredApps: string[]
-  appIconMappings: Record<string, Icon>
-}
 
 type Twitch = {
   icon: Icon

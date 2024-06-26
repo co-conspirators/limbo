@@ -16,7 +16,7 @@ export function Side(side: 'start' | 'center' | 'end', children: Gtk.Widget[]) {
 }
 
 export function Section(
-  children: Gtk.Widget[],
+  children: Gtk.Widget[] | Binding<any, any, Gtk.Widget[]>,
   {
     margin = 12,
     spacing = 8,

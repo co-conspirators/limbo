@@ -81,7 +81,7 @@ const config: Config = {
     modules: {
       left: ['app-launcher', 'notifications', 'twitch'],
       center: ['workspaces'],
-      right: ['sysmon', 'tray', 'quick-settings', 'clock'],
+      right: ['sysmon', 'quick-settings', 'clock'],
     },
     appLauncher: {
       icon: { name: 'nix-snowflake-white', color: theme.text },
@@ -93,6 +93,7 @@ const config: Config = {
     notifications: {
       segments: ['weather', 'todoist', 'github'],
       weather: {
+        temperature: 'apparent',
         icon: {
           color: {
             day: theme.yellow,
@@ -124,7 +125,11 @@ const config: Config = {
       },
     },
     quickSettings: {
-      segments: ['night-light', 'dnd', 'mic', 'volume', 'network', 'toggle'],
+      segments: ['tray', 'night-light', 'dnd', 'mic', 'volume', 'network', 'toggle'],
+      tray: {
+        ignoredApps: [],
+        appIconMappings: {},
+      },
       nightLight: {
         dayTemp: 6500,
         nightTemp: 4000,
@@ -258,10 +263,6 @@ const config: Config = {
         },
         path: '',
       },
-    },
-    tray: {
-      ignoredApps: [],
-      appIconMappings: {},
     },
     twitch: {
       icon: {

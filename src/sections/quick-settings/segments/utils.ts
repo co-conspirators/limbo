@@ -10,7 +10,5 @@ export const newVolume = (current: number, raise: boolean) =>
 
 export const buttonProps: ButtonProps = {
   css: `
-			margin: 0;
-			padding: 0;
 		`,
 }

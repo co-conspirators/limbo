@@ -7,6 +7,7 @@ import Network from './segments/network'
 import NightLight from './segments/night-light'
 import Toggle from './segments/toggle'
 import Volume from './segments/volume'
+import { getTrayItems } from './segments/tray'
 
 import allConfig from 'src/config'
 const config = allConfig.bar.quickSettings
@@ -22,9 +23,19 @@ const segments = {
   volume: Volume,
 }
 
+const systemTray = await Service.import('systemtray')
+
 export default function QuickSettings() {
-  return Section(
-    config.segments.map((segment) => segments[segment]()),
-    { spacing: 12 },
-  )
+  const quickSettings = config.segments
+    .filter((segment) => segment !== 'tray')
+    .map((segment) => segments[segment]())
+  const trayEnabled = config.segments.includes('tray')
+  const items = trayEnabled
+    ? systemTray.bind('items').as((items) => [...getTrayItems(items), ...quickSettings])
+    : quickSettings
+
+  return Section(items, {
+    spacing: 0,
+    margin: 4,
+  })
 }

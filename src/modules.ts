@@ -7,7 +7,6 @@ import Notifications from 'src/sections/notifications/main'
 import QuickSettings from 'src/sections/quick-settings/main'
 import Sysmon from 'src/sections/sysmon'
 import Todo from 'src/sections/todo'
-import Tray from 'src/sections/tray'
 import Twitch from 'src/sections/twitch'
 import Workspaces from 'src/sections/workspaces'
 
@@ -23,7 +22,6 @@ const modules = {
   'quick-settings': QuickSettings,
   sysmon: Sysmon,
   todo: Todo,
-  tray: Tray,
   twitch: Twitch,
   workspaces: Workspaces,
 }

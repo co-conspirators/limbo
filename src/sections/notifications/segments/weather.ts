@@ -1,5 +1,5 @@
 import { Icon } from 'src/components'
-import { NotificationItem, NotificationLabel } from '../main'
+import { NotificationItem } from '../main'
 
 import allConfig from 'src/config'
 const config = allConfig.bar.notifications.weather
@@ -57,10 +57,14 @@ export default function Weather() {
   const label = Widget.Label({
     label: '..',
   }).hook(weatherData, (label) => {
-    if (typeof weatherData.value.temperature !== 'number') {
+    const temperature =
+      config.temperature === 'apparent'
+        ? weatherData.value.apparentTemperature
+        : weatherData.value.temperature
+    if (typeof temperature !== 'number') {
       label.label = '..'
     } else {
-      label.label = `${weatherData.value.temperature.toFixed(1)}°C`
+      label.label = `${temperature.toFixed(1)}°C`
     }
   })
 

@@ -16,6 +16,7 @@ const getTransparentButtonCSS = (extraCSS: string) => `
 
 export const TransparentButton = (props: ButtonProps) =>
   Widget.Button({
+    className: 'transparent-button',
     relief: ReliefStyle.NONE,
     valign: Align.CENTER,
     // TODO: super buggy
