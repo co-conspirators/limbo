@@ -8,14 +8,39 @@ const config = allConfig.bar.quickSettings.mic
 
 const audio = await Service.import('audio')
 
+const IconName = Variable(config.icon.name)
+const MicIconColor = Variable(config.icon.color)
+
 export default function Mic() {
+  const icon = Icon({
+    name: IconName.bind(),
+    color: MicIconColor.bind(),
+  }).hook(
+    audio.microphone,
+    (self) => {
+      const isMuted = audio.microphone.is_muted
+
+      self.tooltip_markup =
+        `<b>Device:</b> ${audio.microphone.description}\n` +
+        (isMuted ? '<b>Muted</b>' : `<b>Volume:</b> ${Math.round(audio.microphone.volume * 100)}%`)
+
+      if (isMuted) {
+        IconName.setValue(config.muteIcon.name)
+        MicIconColor.setValue(config.muteIcon.color)
+      } else {
+        IconName.setValue(config.icon.name)
+        MicIconColor.setValue(config.icon.color)
+      }
+    },
+    'changed',
+  )
+
   return TransparentButton({
-    child: Icon(config.icon),
+    child: icon,
     ...buttonProps,
     onPrimaryClick: () => {
       audio.microphone.is_muted = !audio.microphone.is_muted
     },
-    // onPrimaryClick: () => (audio.microphone.is_muted = !audio.microphone.is_muted),
     onMiddleClick: () => {
       // switch to the next audio input device
       const currentInput = audio.control.get_default_source() as MixerSink

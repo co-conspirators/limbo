@@ -8,9 +8,47 @@ const config = allConfig.bar.quickSettings.volume
 
 const audio = await Service.import('audio')
 
+const IconName = Variable(config.rampIcons[0].name)
+const IconColor = Variable(config.rampIcons[0].color)
+
+const getRampIndex = (volume: number, rampLength: number) =>
+  Math.min(rampLength - 1, Math.floor(rampLength * volume))
+
 export default function Volume() {
+  const icon = Icon({
+    name: IconName.bind(),
+    color: IconColor.bind(),
+  }).hook(
+    audio.speaker,
+    (self) => {
+      const isMuted = audio.speaker.is_muted
+      const volume = audio.speaker.volume
+      const isHeadphones = audio.speaker.icon_name?.includes('headset')
+
+      const rampIcons = isHeadphones ? config.headphonesRamp : config.rampIcons
+      const muteIcon = isHeadphones ? config.headphonesMute : config.muteIcon
+
+      self.tooltip_markup =
+        `<b>Device:</b> ${audio.speaker.description}\n` +
+        (isMuted ? '<b>Muted</b>' : `<b>Volume:</b> ${Math.round(volume * 100)}%`)
+
+      if (isMuted) {
+        IconName.setValue(muteIcon.name)
+        IconColor.setValue(muteIcon.color)
+      } else {
+        const restOfRamp = rampIcons.slice(1)
+        const rampIndex = getRampIndex(volume, restOfRamp.length)
+        const currIcon = volume === 0 ? config.rampIcons[0] : restOfRamp[rampIndex]
+
+        IconName.setValue(currIcon.name)
+        IconColor.setValue(currIcon.color)
+      }
+    },
+    'changed',
+  )
+
   return TransparentButton({
-    child: Icon(config.rampIcons[0]),
+    child: icon,
     ...buttonProps,
     onPrimaryClick: () => {
       audio.speaker.is_muted = !audio.speaker.is_muted

@@ -166,6 +166,14 @@ const config: Config = {
           name: 'volume-off',
           color: theme.red,
         },
+        headphonesRamp: [
+          { name: 'headphones-off', color: theme.flamingo },
+          { name: 'headphones', color: theme.flamingo },
+        ],
+        headphonesMute: {
+          name: 'headphones-off',
+          color: theme.red,
+        },
         step: 0.05,
         onSecondaryClick: 'pavucontrol --tab=3',
       },

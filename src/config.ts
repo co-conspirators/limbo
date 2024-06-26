@@ -140,6 +140,8 @@ type QuickSettings = {
     /** Ramp for the volume from max to min */
     rampIcons: Icon[]
     muteIcon: Icon
+    headphonesMute: Icon
+    headphonesRamp: Icon[]
     /** Volume change step size, 0.05 is 5% */
     step: number
   } & Pick<MouseCommands, 'onSecondaryClick'>
