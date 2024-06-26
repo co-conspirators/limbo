@@ -141,7 +141,7 @@ type QuickSettings = {
     muteIcon: Icon
     /** Volume change step size, 0.05 is 5% */
     step: number
-  }
+  } & Pick<MouseCommands, 'onSecondaryClick'>
   network: {
     /** Ramp for the network strength from max to min */
     rampIcons: Icon[]

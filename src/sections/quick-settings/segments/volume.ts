@@ -25,7 +25,7 @@ export default function Volume() {
     },
     onSecondaryClick: () => {
       // open pavucontrol
-      Utils.execAsync('pavucontrol --tab=3')
+      config.onSecondaryClick && Utils.execAsync(config.onSecondaryClick)
     },
     onScrollUp: () => {
       audio.speaker.volume = newVolume(audio.speaker.volume, true)

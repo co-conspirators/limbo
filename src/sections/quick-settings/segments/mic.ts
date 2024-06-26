@@ -26,7 +26,7 @@ export default function Mic() {
     },
     onSecondaryClick: () => {
       // open pavucontrol
-      Utils.execAsync('pavucontrol --tab=4')
+      config.onSecondaryClick && Utils.execAsync(config.onSecondaryClick)
     },
     onScrollUp: () => {
       audio.microphone.volume = newVolume(audio.microphone.volume, true)

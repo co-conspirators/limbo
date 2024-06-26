@@ -166,6 +166,7 @@ const config: Config = {
           color: theme.red,
         },
         step: 0.05,
+        onSecondaryClick: 'pavucontrol --tab=3',
       },
       network: {
         rampIcons: [
