@@ -111,7 +111,17 @@ type Notifications = {
 }
 
 type QuickSettings = {
-  segments: ('night-light' | 'brightness' | 'dnd' | 'mic' | 'volume' | 'network' | 'battery' | 'toggle')[]
+  segments: (
+    | 'tray'
+    | 'night-light'
+    | 'brightness'
+    | 'dnd'
+    | 'mic'
+    | 'volume'
+    | 'network'
+    | 'battery'
+    | 'toggle'
+  )[]
   nightLight: {
     dayIcon: Icon
     nightIcon: Icon
@@ -191,6 +201,10 @@ type SysMon = {
   }
 } & MouseCommands
 
+type Todo = {
+  soundUrl: string
+  icon: Icon
+}
 type Twitch = {
   icon: Icon
   channels: string[]
@@ -220,7 +234,7 @@ export type Config = {
     notifications: Notifications
     quickSettings: QuickSettings
     sysmon: SysMon
-    tray: Tray
+    todo: Todo
     twitch: Twitch
     workspaces: Workspaces
   }

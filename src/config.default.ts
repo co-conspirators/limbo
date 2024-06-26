@@ -264,6 +264,13 @@ const config: Config = {
         path: '',
       },
     },
+    todo: {
+      soundUrl: 'https://todoist.b-cdn.net/assets/sounds/d8040624c9c7c88aa730f73faa60cf39.mp3',
+      icon: {
+        name: 'square',
+        color: theme.red,
+      },
+    },
     twitch: {
       icon: {
         name: 'brand-twitch',

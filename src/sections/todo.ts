@@ -5,7 +5,8 @@ import { TransparentButton } from 'src/components'
 import { testCache } from 'src/utils/fs'
 import { cacheDir } from 'src/utils/env'
 
-import config from 'src/config'
+import allConfig from 'src/config'
+const config = allConfig.bar.todo
 
 type Task = {
   id: string
@@ -35,7 +36,7 @@ type Task = {
 const getNextTask = async () => {
   try {
     const tasks: Task[] = await Utils.fetch('https://api.todoist.com/rest/v2/tasks', {
-      headers: { Authorization: `Bearer ${config.bar.notifications.todoist.apiToken}` },
+      headers: { Authorization: `Bearer ${allConfig.bar.notifications.todoist.apiToken}` },
     }).then((res) => res.json())
     const nextTask = tasks
       .filter((task) => task.due && !task.due.is_recurring && new Date(task.due.date) <= new Date())
@@ -62,7 +63,7 @@ const completeTask = async (id: string, undo = false) => {
     const url = `https://api.todoist.com/rest/v2/tasks/${id}/${undo ? 'reopen' : 'close'}`
     const status = await Utils.fetch(url, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${config.bar.notifications.todoist.apiToken}` },
+      headers: { Authorization: `Bearer ${allConfig.bar.notifications.todoist.apiToken}` },
     }).then((res) => res.status)
 
     return status === 204
@@ -85,23 +86,26 @@ const TaskContent = Variable('...', {
 })
 
 export default function Todo() {
-  const label = Widget.Label({
-    valign: Align.END,
-    label: TaskContent.bind(),
-  })
-
   return Section([
     TransparentButton({
       css: `padding: 0;`,
-      child: Row([Icon({ name: 'square', color: config.bar.notifications.todoist.icon.color }), label], {
-        spacing: 6,
-      }),
+      child: Row(
+        [
+          Icon(config.icon),
+          Widget.Label({
+            valign: Align.END,
+            label: TaskContent.bind(),
+          }),
+        ],
+        {
+          spacing: 6,
+        },
+      ),
       onPrimaryClick: () =>
         Utils.execAsync('xdg-open https://todoist.com/app/task/' + TaskID.getValue()).catch(console.error),
       onSecondaryClick: async () => {
         // play sound on task completion
-        // TODO: make configurable
-        const soundUrl = 'https://todoist.b-cdn.net/assets/sounds/d8040624c9c7c88aa730f73faa60cf39.mp3'
+        const soundUrl = config.soundUrl
         const filename = soundUrl.split('#')[0].split('?')[0].split('/').pop()
         const cachedSoundFile = `${cacheDir}/todo-sound/${filename}`
 
