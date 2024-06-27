@@ -207,11 +207,11 @@ const config: Config = {
           color: theme.red,
         },
         ethernetIcon: {
-          name: 'network',
+          name: 'ethernet',
           color: theme.sky,
         },
         ethernetOffIcon: {
-          name: 'network-off',
+          name: 'ethernet-off',
           color: theme.red,
         },
       },
