@@ -1,0 +1,12 @@
+{
+  "name": "limbo",
+  "version": "1.0.0",
+  "description": "if suggestions don't work, first make sure you have TypeScript LSP working in your editor",
+  "main": "config.js",
+  "scripts": {},
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "suncalc": "^1.9.0"
+  }
+}

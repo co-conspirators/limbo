@@ -130,6 +130,7 @@ type QuickSettings = {
     forcedIcon: Icon
     dayTemp: number
     nightTemp: number
+    fadeDurationMinutes: number
   } & MouseCommands
   tray: {
     ignoredApps: string[]

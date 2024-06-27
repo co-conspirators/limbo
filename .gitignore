@@ -1,6 +1,7 @@
 /user-config.js
 /user-config.ts
 /build
+/node_modules
 
 # dev
 /types

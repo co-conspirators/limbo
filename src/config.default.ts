@@ -136,6 +136,7 @@ const config: Config = {
       nightLight: {
         dayTemp: 6500,
         nightTemp: 4000,
+        fadeDurationMinutes: 30,
         offIcon: {
           name: 'moon-off',
           color: theme.yellow,
