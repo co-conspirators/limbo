@@ -17,10 +17,7 @@ const setTemp = (temp: number) =>
     `busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q ${Math.round(temp)}`,
   )
 
-let count = 0
 const updateGammaRelay = async () => {
-  count++
-  console.log('updateGammaRelay', count)
   const state = State.getValue()
   if (state === StateEnum.Off) return setTemp(config.dayTemp)
   if (state === StateEnum.Forced) return setTemp(config.nightTemp)
