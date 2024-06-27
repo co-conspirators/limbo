@@ -125,8 +125,9 @@ type QuickSettings = {
     | 'toggle'
   )[]
   nightLight: {
-    dayIcon: Icon
-    nightIcon: Icon
+    offIcon: Icon
+    onIcon: Icon
+    forcedIcon: Icon
     dayTemp: number
     nightTemp: number
   } & MouseCommands

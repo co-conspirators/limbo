@@ -136,12 +136,16 @@ const config: Config = {
       nightLight: {
         dayTemp: 6500,
         nightTemp: 4000,
-        dayIcon: {
+        offIcon: {
           name: 'moon-off',
           color: theme.yellow,
         },
-        nightIcon: {
+        onIcon: {
           name: 'moon',
+          color: theme.yellow,
+        },
+        forcedIcon: {
+          name: 'moon-stars',
           color: theme.yellow,
         },
       },
