@@ -16,7 +16,7 @@ export default function Network() {
 
     switch (conn.internet) {
       case 'connected':
-        IconName.setValue(network.primary === 'wired' ? 'ethernet' : 'wifi')
+        IconName.setValue(network.primary === 'wired' ? config.ethernetIcon.name : config.rampIcons[0].name)
         break
       case 'connecting':
         IconName.setValue('loader')
