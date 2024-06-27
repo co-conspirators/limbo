@@ -214,6 +214,7 @@ const config: Config = {
           name: 'ethernet-off',
           color: theme.red,
         },
+        onPrimaryClick: 'nm-connection-editor',
       },
       battery: {
         rampIcons: [
@@ -230,9 +231,9 @@ const config: Config = {
       },
       brightness: {
         rampIcons: [
-          { name: 'brightness-up', color: theme.yellow },
-          { name: 'brightness-half', color: theme.yellow },
           { name: 'brightness-down', color: theme.yellow },
+          { name: 'brightness-half', color: theme.yellow },
+          { name: 'brightness-up', color: theme.yellow },
         ],
         step: 0.05,
       },
