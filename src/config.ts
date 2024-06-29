@@ -142,7 +142,7 @@ type QuickSettings = {
     rampIcons: Icon[]
     /** Brightness change step size, 0.05 is 5% */
     step: number
-  }
+  } & MouseCommands
   dnd: {
     icon: Icon
     dndIcon: Icon

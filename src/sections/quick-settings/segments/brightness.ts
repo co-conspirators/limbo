@@ -1,4 +1,4 @@
-import { TransparentButton } from 'src/components'
+import { TransparentButton, mouseCommandsToButtonProps } from 'src/components'
 import { Icon } from 'src/components/icon'
 import { buttonProps } from './utils'
 
@@ -70,5 +70,6 @@ export default function Brightness() {
       // decrease brightness
       updateBrightness(-config.step)
     },
+    ...mouseCommandsToButtonProps(config),
   })
 }
