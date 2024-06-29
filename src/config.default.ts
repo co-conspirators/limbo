@@ -104,6 +104,7 @@ const config: Config = {
             fog: theme.text,
             wind: theme.text,
             cloud: theme.text,
+            error: theme.red,
           },
         },
         onPrimaryClick: 'xdg-open https://merrysky.net',

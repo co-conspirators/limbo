@@ -15,6 +15,7 @@ const weatherIconMapping = {
   wind: 'wind',
   fog: 'cloud-fog',
   cloudy: 'cloud',
+  error: 'alert-triangle',
 }
 const colors = config.icon.color
 const weatherIconColorMapping = {
@@ -28,6 +29,7 @@ const weatherIconColorMapping = {
   wind: colors.wind,
   fog: colors.fog,
   cloudy: colors.cloud,
+  error: colors.error,
 }
 
 export default function Weather() {
@@ -43,7 +45,13 @@ export default function Weather() {
           const weather = await Utils.fetch(
             `https://api.pirateweather.net/forecast/${apiToken}/${lat},${lon}?units=${unit === 'metric' ? 'si' : 'us'}`,
           ).then((res) => res.json())
-          return weather.currently
+
+          return weather.message === 'API rate limit exceeded'
+            ? {
+                icon: 'error',
+                temperature: 'quota exceeded',
+              }
+            : weather.currently
         },
       ],
     },
@@ -58,11 +66,11 @@ export default function Weather() {
     label: '..',
   }).hook(weatherData, (label) => {
     const temperature =
-      config.temperature === 'apparent'
+      config.temperature === 'apparent' && weatherData.value.apparentTemperature
         ? weatherData.value.apparentTemperature
         : weatherData.value.temperature
     if (typeof temperature !== 'number') {
-      label.label = '..'
+      label.label = temperature === 'quota exceeded' ? temperature : '..'
     } else {
       label.label = `${temperature.toFixed(1)}°C`
     }

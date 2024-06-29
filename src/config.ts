@@ -92,6 +92,7 @@ type Notifications = {
         fog: string
         wind: string
         cloud: string
+        error: string
       }
     }
     text?: Text
