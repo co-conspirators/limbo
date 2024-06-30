@@ -12,11 +12,14 @@ enum StateEnum {
   Forced = 'forced',
 }
 const State = Variable<StateEnum>(StateEnum.On)
+const Temp = Variable(6500)
 
-const setTemp = (temp: number) =>
+const setTemp = (temp: number) => {
   Utils.execAsync(
     `busctl --user set-property rs.wl-gammarelay / rs.wl.gammarelay Temperature q ${Math.round(temp)}`,
   )
+  Temp.setValue(temp)
+}
 
 const updateGammaRelay = async () => {
   const state = State.getValue()
@@ -55,6 +58,8 @@ export default function NightLight() {
   const icon = Icon({
     name: IconConfig.as((c) => c.name),
     color: IconConfig.as((c) => c.color),
+  }).hook(Temp, (icon) => {
+    icon.tooltip_markup = `${Temp.getValue()}K`
   })
 
   return TransparentButton({
