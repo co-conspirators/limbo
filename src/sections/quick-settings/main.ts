@@ -1,6 +1,7 @@
 import { Section } from 'src/components/layout'
 import Battery from './segments/battery'
 import Brightness from './segments/brightness'
+import Caffeine from './segments/caffeine'
 import DnD from './segments/do-not-disturb'
 import Mic from './segments/mic'
 import Network from './segments/network'
@@ -14,6 +15,7 @@ const config = allConfig.bar.quickSettings
 
 const segments = {
   battery: Battery,
+  caffeine: Caffeine,
   brightness: Brightness,
   dnd: DnD,
   mic: Mic,

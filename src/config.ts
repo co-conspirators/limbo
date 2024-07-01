@@ -56,6 +56,7 @@ type Modules = {
 }
 
 export type MouseCommands = {
+  onClicked?: string
   onPrimaryClick?: string
   onMiddleClick?: string
   onSecondaryClick?: string
@@ -118,6 +119,7 @@ type QuickSettings = {
     | 'tray'
     | 'night-light'
     | 'brightness'
+    | 'caffeine'
     | 'dnd'
     | 'mic'
     | 'volume'
@@ -143,6 +145,13 @@ type QuickSettings = {
     rampIcons: Icon[]
     /** Brightness change step size, 0.05 is 5% */
     step: number
+  } & MouseCommands
+  caffeine: {
+    icon: Icon
+    activeIcon: Icon
+
+    toggleCmd: string
+    statusCmd: string
   } & MouseCommands
   dnd: {
     icon: Icon

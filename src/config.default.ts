@@ -127,7 +127,17 @@ const config: Config = {
       },
     },
     quickSettings: {
-      segments: ['tray', 'night-light', 'dnd', 'mic', 'volume', 'network', 'toggle'],
+      segments: [
+        'tray',
+        'night-light',
+        'brightness',
+        'caffeine',
+        'dnd',
+        'mic',
+        'volume',
+        'network',
+        'toggle',
+      ],
       tray: {
         ignoredApps: [],
         appIconMappings: {},
@@ -150,6 +160,18 @@ const config: Config = {
           name: 'moon-stars',
           color: theme.yellow,
         },
+      },
+      caffeine: {
+        icon: {
+          name: 'mug-off',
+          color: theme.blue,
+        },
+        activeIcon: {
+          name: 'coffee',
+          color: theme.cyan,
+        },
+        toggleCmd: 'killall wlinhibit || wlinhibit',
+        statusCmd: 'pgrep wlinhibit || echo false',
       },
       dnd: {
         icon: {

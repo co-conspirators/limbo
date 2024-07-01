@@ -6,7 +6,7 @@
       url = "file+file:///dev/null";
       flake = false;
     };
-    nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     devenv.url = "github:cachix/devenv";
     nix2container.url = "github:nlewo/nix2container";
     nix2container.inputs.nixpkgs.follows = "nixpkgs";
@@ -47,7 +47,9 @@
           in [
             ags
             svg-fixer
+            pkgs.killall
             pkgs.nodePackages.nodemon
+            pkgs.wlinhibit
             # config.packages.default
           ];
 

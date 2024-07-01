@@ -29,6 +29,7 @@ export const TransparentButton = (props: ButtonProps) =>
   })
 
 const handlerKeys: (keyof MouseCommands)[] = [
+  'onClicked',
   'onPrimaryClick',
   'onSecondaryClick',
   'onMiddleClick',
