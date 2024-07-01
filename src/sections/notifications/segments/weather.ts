@@ -44,14 +44,20 @@ export default function Weather() {
         async () => {
           const weather = await Utils.fetch(
             `https://api.pirateweather.net/forecast/${apiToken}/${lat},${lon}?units=${unit === 'metric' ? 'si' : 'us'}`,
-          ).then((res) => res.json())
+          )
+            .then((res) => res.json())
+            .catch(() => ({
+              message: 'server error',
+            }))
 
           return weather.message === 'API rate limit exceeded'
             ? {
                 icon: 'error',
                 temperature: 'quota exceeded',
               }
-            : weather.currently
+            : weather.message === 'server error'
+              ? { icon: 'error', temperature: 'server error' }
+              : weather.currently
         },
       ],
     },
@@ -70,7 +76,7 @@ export default function Weather() {
         ? weatherData.value.apparentTemperature
         : weatherData.value.temperature
     if (typeof temperature !== 'number') {
-      label.label = temperature === 'quota exceeded' ? temperature : '..'
+      label.label = temperature === 'quota exceeded' || temperature === 'server error' ? temperature : '..'
     } else {
       label.label = `${temperature.toFixed(1)}°C`
     }
