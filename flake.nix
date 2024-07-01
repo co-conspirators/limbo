@@ -37,6 +37,14 @@
           limbo = pkgs.callPackage ./nix { };
         };
 
+        apps = {
+          limbo = {
+            type = "app";
+            program = self'.packages.limbo;
+          };
+          default = self'.apps.limbo;
+        };
+
         devenv.shells.default = let ags = inputs'.ags.packages.default;
         in {
           name = "limbo";
