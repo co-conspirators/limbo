@@ -59,7 +59,7 @@ export default function NightLight() {
     name: IconConfig.as((c) => c.name),
     color: IconConfig.as((c) => c.color),
   }).hook(Temp, (icon) => {
-    icon.tooltip_markup = `${Temp.getValue()}K`
+    icon.tooltip_markup = `<b>Temperature:</b> ${Temp.getValue()}K`
   })
 
   return TransparentButton({
