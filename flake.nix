@@ -63,8 +63,15 @@
           scripts.dev.exec = "nodemon";
           scripts.fix-icons.exec =
             "oslllo-svg-fixer -s ./icons/tabler-backup -d ./icons/tabler";
-          scripts.link-types.exec =
-            "test -f ./tsconfig.json && ln -s ${ags}/share/com.github.Aylur.ags/types ./types";
+          scripts.link-env.exec = ''
+            if test -f ./tsconfig.json; then
+              rm -f ./types
+              ln -sf ${ags}/share/com.github.Aylur.ags/types ./types
+
+              rm -f ./build/icons
+              ln -sf ../icons ./build/icons
+            fi
+          '';
         };
       };
       # flake = { };
