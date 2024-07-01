@@ -38,5 +38,5 @@ let
 
   };
 in writeShellScriptBin "limbo" ''
-  ags --config ${build}/opt/main.js
+  ${ags}/bin/ags --config ${build}/opt/main.js
 ''
