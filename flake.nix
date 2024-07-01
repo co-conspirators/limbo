@@ -32,7 +32,10 @@
       ];
 
       perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
-        # packages.default = pkgs.hello;
+        packages = {
+          default = self'.packages.limbo;
+          limbo = pkgs.callPackage ./nix { };
+        };
 
         devenv.shells.default = let ags = inputs'.ags.packages.default;
         in {
@@ -50,7 +53,7 @@
             pkgs.killall
             pkgs.nodePackages.nodemon
             pkgs.wlinhibit
-            # config.packages.default
+            config.packages.default
           ];
 
           languages.javascript = {
