@@ -22,7 +22,10 @@
 
   outputs = inputs@{ flake-parts, devenv-root, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      imports = [ inputs.devenv.flakeModule ];
+      imports = [
+        inputs.devenv.flakeModule
+        inputs.flake-parts.flakeModules.easyOverlay
+      ];
       systems = [
         "x86_64-linux"
         "i686-linux"
