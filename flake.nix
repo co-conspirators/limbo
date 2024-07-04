@@ -48,6 +48,8 @@
           default = self'.apps.limbo;
         };
 
+        overlayAttrs = { inherit (config.packages) limbo; };
+
         devenv.shells.default = let ags = inputs'.ags.packages.default;
         in {
           name = "limbo";
