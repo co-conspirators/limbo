@@ -1,16 +1,14 @@
-self:
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.services.limbo;
-  limbo = self.packages.${pkgs.system}.default;
+let cfg = config.services.limbo;
 in {
-  options.services.limbo = (import ./options.nix { inherit lib limbo; });
+  options.services.limbo = (import ./options.nix { inherit lib pkgs; });
 
   config =
     let finalPackage = cfg.package.override { defaultConfig = cfg.settings; };
     in lib.mkIf cfg.enable {
       home.packages = [ cfg.package ];
+
       systemd.user.services.limbo = {
         Unit = {
           Description = "Super good bar for wayland build on ags";

@@ -20,7 +20,7 @@
     extra-substituters = "https://devenv.cachix.org";
   };
 
-  outputs = inputs@{ flake-parts, devenv-root, ... }:
+  outputs = inputs@{ self, flake-parts, devenv-root, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.devenv.flakeModule
@@ -35,6 +35,11 @@
       ];
 
       perSystem = { config, self', inputs', pkgs, lib, system, ... }: {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [ self.overlays.default ];
+        };
+
         packages = {
           default = self'.packages.limbo;
           limbo = pkgs.callPackage ./nix { };
@@ -91,8 +96,8 @@
         };
       };
       flake = { self, ... }: {
-        nixosModules.default = import ./nixos/module.nix self;
-        homeManagerModules.default = import ./nix/hm-module.nix self;
+        nixosModules.default = import ./nixos/module.nix;
+        homeManagerModules.default = import ./nix/hm-module.nix;
       };
     };
 }

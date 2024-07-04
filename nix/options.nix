@@ -1,4 +1,4 @@
-{ lib, limbo, ... }:
+{ lib, pkgs, ... }:
 
 let inherit (lib) mkOption mkEnableOption types;
 in {
@@ -6,7 +6,7 @@ in {
 
   package = mkOption {
     type = types.package;
-    default = limbo;
+    default = pkgs.limbo;
     defaultText = "pkgs.limbo";
     description = "The package to use for limbo bar";
   };

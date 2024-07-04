@@ -1,11 +1,8 @@
-self:
 { config, lib, pkgs, ... }:
 
-let
-  cfg = config.services.limbo;
-  limbo = self.packages.${pkgs.system}.default;
+let cfg = config.services.limbo;
 in {
-  options.services.limbo = (import ./options.nix { inherit lib limbo; });
+  options.services.limbo = (import ./options.nix { inherit lib pkgs; });
 
   config =
     let finalPackage = cfg.package.override { defaultConfig = cfg.settings; };
