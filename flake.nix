@@ -90,6 +90,9 @@
           '';
         };
       };
-      # flake = { };
+      flake = { self, ... }: {
+        nixosModules.default = import ./nixos/module.nix self;
+        homeManagerModules.default = import ./nix/hm-module.nix self;
+      };
     };
 }
