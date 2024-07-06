@@ -52,8 +52,8 @@ let
 in stdenv.mkDerivation {
   name = "limbo";
 
-  buildInputs = [ 
-    ags 
+  buildInputs = [
+    ags
     gjs
     gtk3
     libpulseaudio
@@ -80,7 +80,11 @@ in stdenv.mkDerivation {
   '';
 
   meta = {
+    homepage = "https://github.com/co-conspirators/limbo";
     description = "Limbo - A custom GTK shell using AGS";
     mainProgram = "limbo";
+    license = lib.licenses.gpl3Plus;
+    maintainers = with lib.maintainers; [ redxtech ];
+    platforms = lib.platforms.linux;
   };
 }
