@@ -1,5 +1,6 @@
 import { Icon, Row, Section, TransparentButton } from 'src/components'
 import allConfig from 'src/config'
+import { cacheDir } from 'src/utils/env'
 import { exists } from 'src/utils/fs'
 import cairo from 'types/@girs/cairo-1.0/cairo-1.0'
 
@@ -7,7 +8,7 @@ const config = allConfig.bar.twitch
 
 // TODO: tooltip with full info
 export function TwitchPfp(name: string) {
-  const image = `/tmp/ags/twitch-pfp/${name}.png`
+  const image = `${cacheDir}/twitch-pfp/${name}.png`
 
   return TransparentButton({
     css: `padding: 6px 0px 2px 8px;`,
@@ -78,7 +79,7 @@ export default function Twitch() {
       // Download PFPs to /tmp/ags/twitch-pfp/${channel}.png
       await Utils.execAsync('mkdir -p /tmp/ags/twitch-pfp')
       for (const channel of channels) {
-        const pfpPath = `/tmp/ags/twitch-pfp/${channel.user_name}.png`
+        const pfpPath = `${cacheDir}/twitch-pfp/${channel.user_name}.png`
         if (await exists(pfpPath)) continue
 
         const user = await makeRequest(`users?login=${channel.user_name}`).then((users) => users[0])
