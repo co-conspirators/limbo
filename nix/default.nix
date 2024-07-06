@@ -46,7 +46,6 @@ let
 
       ln -s $src/icons $out/opt/icons
       cp build/main.js $out/opt
-      ln -sf ${settingsFile} $out/opt/system-config.json
     '';
 
   };
