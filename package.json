@@ -4,13 +4,18 @@
   "description": "if suggestions don't work, first make sure you have TypeScript LSP working in your editor",
   "main": "config.js",
   "scripts": {
+    "start": "ags --config ./build/main.js",
     "dev": "nodemon",
     "build": "bun ./build.ts",
-    "run": "ags --config ./build/main.js"
+    "fix-icons": "oslllo-svg-fixer -s ./icons/tabler-backup -d ./icons/tabler"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "suncalc": "^1.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4",
+    "oslllo-svg-fixer": "^4.0.1"
   }
 }

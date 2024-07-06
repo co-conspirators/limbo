@@ -1,5 +1,5 @@
-{ lib, buildNpmPackage, writeShellScriptBin, writeText, bun, ags
-, defaultConfig ? {
+{ pkgs, lib, stdenv, buildNpmPackage, makeWrapper, wrapGAppsHook, writeText, bun
+, ags, defaultConfig ? {
   modules = {
     left = [ "app-launcher" "notifications" "todo" "music" ];
     center = [ "workspaces" ];
@@ -8,11 +8,11 @@
 }, ... }:
 
 let
-  build = buildNpmPackage {
+  npmPackage = buildNpmPackage {
     name = "limbo";
     src = lib.cleanSource ../.;
 
-    npmDepsHash = "sha256-/EWB1LeOeGB4+BtJFMkyiGdezgwQ0Gmm08uBcqbv8z0=";
+    npmDepsHash = "sha256-+/AMi+bL1pLFs0onocvtaUkI5FHHuN+c6tBBdzfSt74=";
     nativeBuildInputs = [ bun ];
 
     buildPhase = let
@@ -20,7 +20,7 @@ let
       settingsFile =
         writeText "system-config.json" (builtins.toJSON defaultConfig);
       # to make sure a file exists there (it's gitignored)
-      userConfigFile = writeText "uesr-config.js" "export default {}";
+      userConfigFile = writeText "user-config.js" "export default {}";
     in ''
       ln -sf ${ags}/share/com.github.Aylur.ags/types ./types
       ln -sf ${settingsFile} ./system-config.json
@@ -37,6 +37,38 @@ let
     '';
 
   };
-in writeShellScriptBin "limbo" ''
-  ${ags}/bin/ags --config ${build}/opt/main.js
-''
+in stdenv.mkDerivation {
+  name = "limbo";
+
+  buildInputs = with pkgs; [
+    ags
+    gjs
+    gtk3
+    libpulseaudio
+    upower
+    gnome.gnome-bluetooth
+    gtk-layer-shell
+    glib-networking
+    networkmanager
+    libdbusmenu-gtk3
+    gvfs
+    libsoup_3
+    libnotify
+    pam
+  ];
+  nativeBuildInputs = [ makeWrapper wrapGAppsHook pkgs.gobject-introspection ];
+
+  dontUnpack = true;
+  dontBuild = true;
+
+  installPhase = ''
+    mkdir -p $out/bin
+    makeWrapper ${ags}/bin/ags $out/bin/limbo \
+      --add-flags "--config ${npmPackage}/opt/main.js"
+  '';
+
+  meta = {
+    description = "Limbo - A custom GTK shell using AGS";
+    mainProgram = "limbo";
+  };
+}
