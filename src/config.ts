@@ -1,11 +1,13 @@
 import defaultConfig from './config.default'
 import userConfig from '../user-config'
+import { configDir } from './utils/env'
 import { exists } from './utils/fs'
 
-const readConfig = (await exists('system-config.json'))
-  ? await Utils.readFileAsync('system-config.json')
+const systemConfigPath = configDir + '/config.json'
+const systemConfigJSON = (await exists(systemConfigPath))
+  ? await Utils.readFileAsync(systemConfigPath)
   : '{}'
-const systemConfig = JSON.parse(readConfig)
+const systemConfig = JSON.parse(systemConfigJSON)
 const preUserConfig = deepMerge(defaultConfig, systemConfig) as Config
 
 /// Merge default and user config

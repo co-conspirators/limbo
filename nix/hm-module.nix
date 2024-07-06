@@ -4,10 +4,13 @@ let cfg = config.services.limbo;
 in {
   options.services.limbo = (import ./options.nix { inherit lib pkgs; });
 
-  config =
-    let finalPackage = cfg.package.override { defaultConfig = cfg.settings; };
-    in lib.mkIf cfg.enable {
+  config = lib.mkIf cfg.enable {
       home.packages = [ cfg.package ];
+
+      xdg.configFile.limboConfig = {
+        target = "limbo/config.json";
+        text = builtins.toJSON cfg.settings;
+      };
 
       systemd.user.services.limbo = {
         Unit = {
@@ -17,7 +20,7 @@ in {
           After = [ "graphical-session-pre.target" ];
         };
         Service = {
-          ExecStart = "${finalPackage}/bin/limbo";
+          ExecStart = "${cfg.package}/bin/limbo";
           Restart = "always";
         };
         Install = { WantedBy = [ "graphical-session.target" ]; };

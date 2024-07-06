@@ -20,14 +20,6 @@
 , libnotify
 , pam
 , gobject-introspection
-, defaultConfig ? 
-  { 
-    modules = {
-      left = [ "app-launcher" "notifications" "todo" "music" ];
-      center = [ "workspaces" ];
-      right = [ "sysmon" "quick-settings" "clock" ];
-    }; 
-  }
 , ...
 }:
 
@@ -49,8 +41,7 @@ let
       bun run build
     '';
 
-    installPhase = let settingsFile =
-        writeText "system-config.json" (builtins.toJSON defaultConfig); in ''
+    installPhase = ''
       mkdir -p $out/opt
 
       ln -s $src/icons $out/opt/icons

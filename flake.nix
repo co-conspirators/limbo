@@ -41,7 +41,7 @@
         overlayAttrs = { inherit (config.packages) limbo; };
 
         devShells.default = let ags = inputs'.ags.packages.default;
-        in {
+        in pkgs.mkShell {
           buildInputs = [ ags ] ++ (with pkgs; [
             bun
             nodejs_22

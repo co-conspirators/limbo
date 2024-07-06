@@ -6,7 +6,7 @@ in {
 
   package = mkOption {
     type = types.package;
-    default = pkgs.limbo;
+    default = pkgs.callPackage ./default.nix { };
     defaultText = "pkgs.limbo";
     description = "The package to use for limbo bar";
   };
