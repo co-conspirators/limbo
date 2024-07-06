@@ -93,8 +93,7 @@ export function SongArt(player: MprisPlayer) {
     image = getUrlCachePath(url)
     // TODO: move logic out and deduplicate calls
     if (!existsSync(image)) {
-      await Utils.execAsync(`mkdir -p ${dirname(image)}`).catch(console.error)
-      await Utils.execAsync(`curl -o ${image} ${url}`).catch(console.error)
+      await Utils.execAsync(`curl --create-dirs -o ${image} ${url}`).catch(console.error)
     }
     albumArt.queue_draw()
   })

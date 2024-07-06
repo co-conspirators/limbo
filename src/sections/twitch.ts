@@ -77,14 +77,13 @@ export default function Twitch() {
       const channels = await makeRequest(`streams?user_login=${allowedChannels.join('&user_login=')}`)
 
       // Download PFPs to /tmp/ags/twitch-pfp/${channel}.png
-      await Utils.execAsync('mkdir -p /tmp/ags/twitch-pfp')
       for (const channel of channels) {
         const pfpPath = `${cacheDir}/twitch-pfp/${channel.user_name}.png`
         if (await exists(pfpPath)) continue
 
         const user = await makeRequest(`users?login=${channel.user_name}`).then((users) => users[0])
 
-        await Utils.execAsync(`curl -o ${pfpPath} ${user.profile_image_url}`)
+        await Utils.execAsync(`curl --create-dirs -o ${pfpPath} ${user.profile_image_url}`)
       }
 
       channelsRow.children = channels.map((channel) => TwitchPfp(channel.user_name))
