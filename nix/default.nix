@@ -40,24 +40,22 @@ let
     nativeBuildInputs = [ bun ];
 
     buildPhase = let
-      # for providing default config
-      settingsFile =
-        writeText "system-config.json" (builtins.toJSON defaultConfig);
       # to make sure a file exists there (it's gitignored)
       userConfigFile = writeText "user-config.js" "export default {}";
     in ''
       ln -sf ${ags}/share/com.github.Aylur.ags/types ./types
-      ln -sf ${settingsFile} ./system-config.json
       ln -sf ${userConfigFile} ./user-config.js
 
       bun run build
     '';
 
-    installPhase = ''
+    installPhase = let settingsFile =
+        writeText "system-config.json" (builtins.toJSON defaultConfig); in ''
       mkdir -p $out/opt
 
       ln -s $src/icons $out/opt/icons
       cp build/main.js $out/opt
+      ln -sf ${settingsFile} $out/opt/system-config.json
     '';
 
   };
