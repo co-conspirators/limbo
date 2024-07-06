@@ -1,16 +1,6 @@
 import defaultConfig from './config.default'
 import userConfig from '../user-config'
 import { configDir } from './utils/env'
-import { exists } from './utils/fs'
-
-const systemConfigPath = configDir + '/config.json'
-const systemConfigJSON = (await exists(systemConfigPath))
-  ? await Utils.readFileAsync(systemConfigPath)
-  : '{}'
-const systemConfig = JSON.parse(systemConfigJSON)
-const preUserConfig = deepMerge(defaultConfig, systemConfig) as Config
-
-/// Merge default and user config
 
 function deepMerge(
   target: Record<PropertyKey, any>,
@@ -23,7 +13,13 @@ function deepMerge(
   }
   return { ...target, ...source }
 }
-export default deepMerge(preUserConfig, userConfig) as Config
+function getConfig(): Config {
+  const configFiles = Utils.exec('ls -1 ' + configDir).split('\n').filter((file) => file.endsWith('.json'))
+  const configs = configFiles.map((file) => JSON.parse(Utils.readFile(file)))
+  return [...configs, userConfig].reduce((acc, config) => deepMerge(acc, config), defaultConfig)
+}
+
+export default getConfig()
 
 /// Types
 
