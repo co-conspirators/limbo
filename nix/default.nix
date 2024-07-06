@@ -1,11 +1,35 @@
-{ pkgs, lib, stdenv, buildNpmPackage, makeWrapper, wrapGAppsHook, writeText, bun
-, ags, defaultConfig ? {
-  modules = {
-    left = [ "app-launcher" "notifications" "todo" "music" ];
-    center = [ "workspaces" ];
-    right = [ "sysmon" "quick-settings" "clock" ];
-  };
-}, ... }:
+{ lib
+, stdenv
+, buildNpmPackage
+, makeWrapper
+, wrapGAppsHook
+, writeText
+, bun
+, ags
+, gjs
+, gtk3
+, libpulseaudio
+, upower
+, gnome
+, gtk-layer-shell
+, glib-networking
+, networkmanager
+, libdbusmenu-gtk3
+, gvfs
+, libsoup_3
+, libnotify
+, pam
+, gobject-introspection
+, defaultConfig ? 
+  { 
+    modules = {
+      left = [ "app-launcher" "notifications" "todo" "music" ];
+      center = [ "workspaces" ];
+      right = [ "sysmon" "quick-settings" "clock" ];
+    }; 
+  }
+, ...
+}:
 
 let
   npmPackage = buildNpmPackage {
@@ -40,8 +64,8 @@ let
 in stdenv.mkDerivation {
   name = "limbo";
 
-  buildInputs = with pkgs; [
-    ags
+  buildInputs = [ 
+    ags 
     gjs
     gtk3
     libpulseaudio
@@ -56,7 +80,7 @@ in stdenv.mkDerivation {
     libnotify
     pam
   ];
-  nativeBuildInputs = [ makeWrapper wrapGAppsHook pkgs.gobject-introspection ];
+  nativeBuildInputs = [ makeWrapper wrapGAppsHook gobject-introspection ];
 
   dontUnpack = true;
   dontBuild = true;
