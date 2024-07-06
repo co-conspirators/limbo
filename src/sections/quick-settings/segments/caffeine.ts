@@ -3,22 +3,26 @@ import { Icon } from 'src/components/icon'
 import { buttonProps } from './utils'
 
 import allConfig from 'src/config'
+import { Subprocess } from 'types/@girs/gio-2.0/gio-2.0.cjs'
 const config = allConfig.bar.quickSettings.caffeine
 
-const CaffeineStatus = Variable(false, {
-  poll: [1000, `bash -c '${config.statusCmd}'`, (out) => out !== 'false'],
-})
+const CaffeineProc = Variable<Subprocess | undefined>(undefined)
 
 export default function Caffeine() {
   return TransparentButton({
     child: Icon({
-      name: CaffeineStatus.bind('value').as((c) => (c ? config.activeIcon.name : config.icon.name)),
-      color: CaffeineStatus.bind('value').as((c) => (c ? config.activeIcon.color : config.icon.color)),
+      name: CaffeineProc.bind('value').as((c) => (c ? config.activeIcon.name : config.icon.name)),
+      color: CaffeineProc.bind('value').as((c) => (c ? config.activeIcon.color : config.icon.color)),
     }),
     ...buttonProps,
     onClicked: () => {
-      Utils.execAsync(`bash -c '${config.toggleCmd}'`)
-      CaffeineStatus.setValue(!CaffeineStatus.getValue())
+      const proc = CaffeineProc.getValue()
+      if (proc) {
+        proc.force_exit()
+        CaffeineProc.setValue(undefined)
+      } else {
+        CaffeineProc.setValue(Utils.subprocess([config.toggleCmd]))
+      }
     },
     ...mouseCommandsToButtonProps(config),
   })

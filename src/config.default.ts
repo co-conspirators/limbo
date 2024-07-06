@@ -170,8 +170,7 @@ const config: Config = {
           name: 'coffee',
           color: theme.cyan,
         },
-        toggleCmd: 'killall wlinhibit || wlinhibit',
-        statusCmd: 'pgrep wlinhibit || echo false',
+        toggleCmd: 'wlinhibit',
       },
       dnd: {
         icon: {
