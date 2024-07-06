@@ -14,7 +14,7 @@ function deepMerge(
   return { ...target, ...source }
 }
 function getConfig(): Config {
-  const configFiles = Utils.exec('ls -1 ' + configDir).split('\n').filter((file) => file.endsWith('.json'))
+  const configFiles = Utils.exec('ls -1 ' + configDir).split('\n').filter((file) => file.endsWith('.json')).map(file => `${configDir}/${file}`)
   const configs = configFiles.map((file) => JSON.parse(Utils.readFile(file)))
   return [...configs, userConfig].reduce((acc, config) => deepMerge(acc, config), defaultConfig)
 }
