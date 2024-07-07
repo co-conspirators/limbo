@@ -88,14 +88,13 @@ export function SongArt(player: MprisPlayer) {
         cr.restore()
       }
     },
-  }).hook(player, async (albumArt) => {
+  }).hook(player, async () => {
     url = player.track_cover_url
     image = getUrlCachePath(url)
     // TODO: move logic out and deduplicate calls
     if (!existsSync(image)) {
       await Utils.execAsync(`curl --create-dirs -o ${image} ${url}`).catch(console.error)
     }
-    albumArt.queue_draw()
   })
 
   return albumArt
