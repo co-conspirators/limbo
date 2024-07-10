@@ -36,6 +36,15 @@
             program = self'.packages.limbo;
           };
           default = self'.apps.limbo;
+
+          dev = {
+            type = "app";
+            program = pkgs.writeScriptBin "ags-dev" ''
+              #!${pkgs.bash}/bin/bash
+
+              ${pkgs.bun}/bin/bun run dev
+            '';
+          };
         };
 
         overlayAttrs = { inherit (config.packages) limbo; };
@@ -51,6 +60,9 @@
           ]);
           shellHook = ''
             export AGS_TYPES=${ags}/share/com.github.Aylur.ags/types
+
+            alias dev="nix run .#dev"
+            alias link-types="[[ -f ./tsconfig ]] ln -sf ${ags}/share/com.github.Aylur.ags/types ./types"
           '';
         };
       };
