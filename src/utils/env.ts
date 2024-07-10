@@ -1,5 +1,4 @@
-import GLib from 'types/@girs/glib-2.0/glib-2.0'
+import GLib from 'gi://GLib'
 
-export const cacheDir = (GLib.getenv('XDG_CACHE_HOME') || `${GLib.getenv('HOME')}/.cache`) + '/limbo'
-
-export const configDir = (GLib.getenv('XDG_CONFIG_HOME') || `${GLib.getenv('HOME')}/.config`) + '/limbo'
+export const cacheDir = GLib.get_user_cache_dir() + '/limbo'
+export const configDir = GLib.get_user_config_dir() + '/limbo'
