@@ -1,6 +1,7 @@
 import defaultConfig from './config.default'
 import userConfig from '../user-config'
 import { configDir } from './utils/env'
+import { getFileNames } from './utils/fs'
 
 function deepMerge(
   target: Record<PropertyKey, any>,
@@ -14,8 +15,7 @@ function deepMerge(
   return { ...target, ...source }
 }
 function getConfig(): Config {
-  const configFiles = Utils.exec('ls -1 ' + configDir)
-    .split('\n')
+  const configFiles = getFileNames(configDir)
     .filter((file) => file.endsWith('.json'))
     .map((file) => `${configDir}/${file}`)
   const configs = configFiles.map((file) => JSON.parse(Utils.readFile(file)))
