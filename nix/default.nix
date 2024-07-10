@@ -6,6 +6,9 @@
 , writeText
 , bun
 , ags
+, procps
+, unixtools
+, wlinhibit
 , gjs
 , gtk3
 , libpulseaudio
@@ -73,9 +76,12 @@ in stdenv.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
+  binPaths = lib.makeBinPath [ procps unixtools.top wlinhibit ];
+
   installPhase = ''
     mkdir -p $out/bin
     makeWrapper ${ags}/bin/ags $out/bin/limbo \
+      --prefix PATH : "$binPaths" \
       --add-flags "--config ${npmPackage}/opt/main.js"
   '';
 
