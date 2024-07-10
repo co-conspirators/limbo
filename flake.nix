@@ -67,7 +67,7 @@
         };
       };
       flake = { self, ... }: {
-        nixosModules.default = import ./nixos/module.nix;
+        nixosModules.default = import ./nix/module.nix;
         homeManagerModules.default = import ./nix/hm-module.nix;
       };
     };
