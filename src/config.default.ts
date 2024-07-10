@@ -181,10 +181,10 @@ const config: Config = {
           name: 'bell-off',
           color: theme.red,
         },
-        toggleCmd: 'dunstctl set-paused toggle',
-        statusCmd: 'dunstctl is-paused',
-        historyCmd: 'dunstctl history-pop',
-        dismissCmd: 'dunstctl close',
+        toggleCmd: 'makoctl mode -t do-not-disturb',
+        statusCmd: 'makoctl mode',
+        historyCmd: 'makoctl restore',
+        dismissCmd: 'makoctl dismiss',
       },
       mic: {
         icon: {

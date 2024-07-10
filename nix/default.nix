@@ -6,6 +6,7 @@
 , writeText
 , bun
 , ags
+, mako
 , procps
 , unixtools
 , wlinhibit
@@ -76,7 +77,7 @@ in stdenv.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
-  binPaths = lib.makeBinPath [ procps unixtools.top wlinhibit ];
+  binPaths = lib.makeBinPath [ mako procps unixtools.top wlinhibit ];
 
   installPhase = ''
     mkdir -p $out/bin
