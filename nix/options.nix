@@ -1,6 +1,8 @@
 { lib, pkgs, ... }:
 
-let inherit (lib) mkOption mkEnableOption types;
+let
+  inherit (lib) mkOption mkEnableOption types;
+  jsonFormat = pkgs.formats.json { };
 in {
   enable = mkEnableOption "Enable limbo bar";
 
@@ -11,10 +13,9 @@ in {
     description = "The package to use for limbo bar";
   };
 
-  settings = with types;
-    mkOption {
-      type = attrsOf anything;
-      default = { };
-      description = "Settings for limbo bar, JSON format";
-    };
+  settings = mkOption {
+    type = jsonFormat.type;
+    default = null;
+    description = "Settings for limbo bar, JSON format";
+  };
 }
