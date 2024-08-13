@@ -62,7 +62,7 @@
             export AGS_TYPES=${ags}/share/com.github.Aylur.ags/types
 
             alias dev="nix run .#dev"
-            alias link-types="[[ -f ./tsconfig ]] ln -sf ${ags}/share/com.github.Aylur.ags/types ./types"
+            alias link-types="[[ -f ./tsconfig ]] && ln -sf ${ags}/share/com.github.Aylur.ags/types ./types"
           '';
         };
       };
