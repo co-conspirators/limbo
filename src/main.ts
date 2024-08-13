@@ -59,6 +59,7 @@ App.applyCss(`
     margin: 0px;
   }
 `)
+
 App.config({
-  windows: [Bar(0), Bar(1)],
+  windows: hyprland.monitors.map((m) => Bar(m.id)),
 })
