@@ -88,6 +88,18 @@ const config: Config = {
       icon: { name: 'nix-snowflake-white', color: theme.text },
       onPrimaryClick: 'tofi-drun',
     },
+		battery: {
+			rampIcons: [
+				{ name: 'battery-4', color: theme.green },
+				{ name: 'battery-3', color: theme.green },
+				{ name: 'battery-2', color: theme.yellow },
+				{ name: 'battery-1', color: theme.red },
+			],
+			chargingIcon: {
+				name: 'battery-charging',
+				color: theme.green,
+			},
+		},
     clock: {
       icon: { name: 'clock', color: theme.text },
     },

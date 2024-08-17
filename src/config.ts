@@ -50,13 +50,15 @@ type BarTheme = {
 
 type ModuleName =
   | 'app-launcher'
+	| 'battery'
+	| 'clock'
+	| 'music'
   | 'notifications'
+	| 'quick-settings'
+	| 'sysmon'
+	| 'todo'
   | 'twitch'
-  | 'music'
   | 'workspaces'
-  | 'sysmon'
-  | 'quick-settings'
-  | 'clock'
 type Modules = {
   left: ModuleName[]
   center: ModuleName[]
@@ -81,6 +83,11 @@ type Text = {
 
 type AppLauncher = {
   icon: Icon
+} & MouseCommands
+
+type Battery = {
+  rampIcons: Icon[]
+  chargingIcon: Icon
 } & MouseCommands
 
 /** See the general section for timeFormat */
@@ -252,6 +259,7 @@ export type Config = {
     theme: BarTheme
     modules: Modules
     appLauncher: AppLauncher
+		battery: Battery
     clock: Clock
     notifications: Notifications
     quickSettings: QuickSettings

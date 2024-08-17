@@ -1,6 +1,7 @@
 import { Side } from 'src/components/layout'
 
 import AppLauncher from 'src/sections/app-launcher'
+import Battery from 'src/sections/battery'
 import Clock from 'src/sections/clock'
 import Music from 'src/sections/music'
 import Notifications from 'src/sections/notifications/main'
@@ -16,6 +17,7 @@ const config = allConfig.bar.modules
 // mapping of strings to modules
 const modules = {
   'app-launcher': AppLauncher,
+	battery: Battery,
   clock: Clock,
   music: Music,
   notifications: Notifications,
