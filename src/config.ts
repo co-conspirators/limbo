@@ -112,8 +112,6 @@ type Notifications = {
       }
     }
     text?: Text
-    /** Get from http://pirateweather.net/en/latest/ */
-    apiToken: string
   } & MouseCommands
   todoist: {
     icon: Icon
