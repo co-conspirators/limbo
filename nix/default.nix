@@ -23,6 +23,7 @@
 , libsoup_3
 , libnotify
 , pam
+, pulseaudio
 , gobject-introspection
 , ...
 }:
@@ -71,6 +72,7 @@ in stdenv.mkDerivation {
     libsoup_3
     libnotify
     pam
+    pulseaudio
   ];
   nativeBuildInputs = [ makeWrapper wrapGAppsHook gobject-introspection ];
 

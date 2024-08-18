@@ -64,7 +64,9 @@ const completeTask = async (id: string, undo = false) => {
     const status = await Utils.fetch(url, {
       method: 'POST',
       headers: { Authorization: `Bearer ${allConfig.bar.notifications.todoist.apiToken}` },
-    }).then((res) => res.status)
+    })
+			.then((res) => res.status)
+			.catch((err) => console.error('Failed to complete task', err))
 
     return status === 204
   } catch (err) {
@@ -119,8 +121,10 @@ export default function Todo() {
             )
           }
 
-          // finally, play the sound
-          Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch(console.error)
+					// finally, play the sound
+					Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch((err) =>
+						console.error('Failed to play sound:', err),
+					)
         }
 
         // complete task with API

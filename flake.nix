@@ -55,6 +55,7 @@
             bun
             nodejs_22
             procps
+            pulseaudio
             wlinhibit
             config.packages.default
           ]);
