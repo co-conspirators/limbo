@@ -11,6 +11,11 @@ const audio = await Service.import('audio')
 const IconName = Variable(config.rampIcons[0].name)
 const IconColor = Variable(config.rampIcons[0].color)
 
+const setIcon = ({ name, color }: { name: string; color: string }) => {
+	IconName.setValue(name)
+	IconColor.setValue(color)
+}
+
 const getRampIndex = (volume: number, rampLength: number) =>
   Math.min(rampLength - 1, Math.floor(rampLength * volume))
 
@@ -33,15 +38,12 @@ export default function Volume() {
         (isMuted ? '<b>Muted</b>' : `<b>Volume:</b> ${Math.round(volume * 100)}%`)
 
       if (isMuted) {
-        IconName.setValue(muteIcon.name)
-        IconColor.setValue(muteIcon.color)
+				setIcon(muteIcon)
       } else {
         const restOfRamp = rampIcons.slice(1)
         const rampIndex = getRampIndex(volume, restOfRamp.length)
         const currIcon = volume === 0 ? config.rampIcons[0] : restOfRamp[rampIndex]
-
-        IconName.setValue(currIcon.name)
-        IconColor.setValue(currIcon.color)
+				setIcon(currIcon)
       }
     },
     'changed',
