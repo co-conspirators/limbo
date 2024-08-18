@@ -114,10 +114,10 @@ export default function Weather() {
 			config.temperature === 'apparent' && weatherData.value.apparent_temperature
 				? weatherData.value.apparent_temperature
 				: weatherData.value.temperature_2m
-		if (typeof temperature !== 'number') {
-			self.label = temperature
-		} else {
+		if (typeof temperature === 'number') {
 			self.label = `${temperature.toFixed(1)}°C`
+		} else if (typeof temperature === 'string') {
+			self.label = temperature
 		}
 	})
 
