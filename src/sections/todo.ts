@@ -114,17 +114,21 @@ export default function Todo() {
         if (!filename) {
           console.error('Failed to parse sound filename')
         } else {
-          // if the file is not cached, download it
-          if (!(await testCache(filename))) {
-            await Utils.execAsync(['curl', '--create-dirs', '--output', cachedSoundFile, soundUrl]).catch(
-              console.error,
-            )
-          }
+					try {
+						// if the file is not cached, download it
+						if (!(await testCache(filename))) {
+							await Utils.execAsync(['curl', '--create-dirs', '--output', cachedSoundFile, soundUrl]).catch(
+								console.error,
+							)
+						}
 
-					// finally, play the sound
-					Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch((err) =>
-						console.error('Failed to play sound:', err),
-					)
+						// finally, play the sound
+						Utils.execAsync(['paplay', '-p', cachedSoundFile]).catch((err) =>
+							console.error('Failed to play sound:', err),
+						)
+					} catch (err) {
+						console.error('Failed to play sound:', err)
+					}
         }
 
         // complete task with API

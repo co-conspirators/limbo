@@ -6,6 +6,7 @@
 , writeText
 , bun
 , ags
+, curl
 , mako
 , procps
 , unixtools
@@ -59,6 +60,7 @@ in stdenv.mkDerivation {
 
   buildInputs = [
     ags
+		curl
     gjs
     gtk3
     libpulseaudio
@@ -79,7 +81,14 @@ in stdenv.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
-  binPaths = lib.makeBinPath [ mako procps unixtools.top wlinhibit ];
+  binPaths = lib.makeBinPath [
+		curl
+		mako
+		procps
+		pulseaudio
+		unixtools.top
+		wlinhibit
+	];
 
   installPhase = ''
     mkdir -p $out/bin

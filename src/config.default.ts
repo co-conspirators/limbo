@@ -120,7 +120,6 @@ const config: Config = {
           },
         },
         onPrimaryClick: 'xdg-open https://merrysky.net',
-        apiToken: '',
       },
       todoist: {
         icon: {
