@@ -3,6 +3,12 @@ import userConfig from '../user-config'
 import { configDir } from './utils/env'
 import { getFileNames } from './utils/fs'
 
+// FIXME: currently, merging arrays isn't fully working
+// if a source array is shorter than the target array, the result will be
+// the source array with the elements of the target array past the length of the source array
+// appended to it.
+// ie., if the source array is [1, 2, 3] and the target array is [9, 8, 7, 6], the result will be [1, 2, 3, 6]
+// @liam pls fix
 function deepMerge(
   target: Record<PropertyKey, any>,
   source: Record<PropertyKey, any>,

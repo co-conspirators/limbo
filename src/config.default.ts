@@ -80,7 +80,7 @@ const config: Config = {
       fg: theme.text,
     },
     modules: {
-      left: ['app-launcher', 'notifications', 'twitch', 'music'],
+      left: [ 'app-launcher', 'notifications', 'music' ],
       center: ['workspaces'],
       right: ['sysmon', 'quick-settings', 'clock'],
     },
