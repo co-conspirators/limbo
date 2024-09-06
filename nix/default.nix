@@ -15,7 +15,7 @@
 , gtk3
 , libpulseaudio
 , upower
-, gnome
+, gnome-bluetooth
 , gtk-layer-shell
 , glib-networking
 , networkmanager
@@ -60,12 +60,12 @@ in stdenv.mkDerivation {
 
   buildInputs = [
     ags
-		curl
+    curl
     gjs
     gtk3
     libpulseaudio
     upower
-    gnome.gnome-bluetooth
+    gnome-bluetooth
     gtk-layer-shell
     glib-networking
     networkmanager
@@ -81,14 +81,8 @@ in stdenv.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
-  binPaths = lib.makeBinPath [
-		curl
-		mako
-		procps
-		pulseaudio
-		unixtools.top
-		wlinhibit
-	];
+  binPaths =
+    lib.makeBinPath [ curl mako procps pulseaudio unixtools.top wlinhibit ];
 
   installPhase = ''
     mkdir -p $out/bin
