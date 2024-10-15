@@ -35,7 +35,7 @@ const getCountdown = (seconds: number) => {
 		.join(' ')
 }
 
-const formatPercent = (percent: number) => percent > config.fullThreshold ? `${percent}%` : '100%'
+const formatPercent = (percent: number) => percent > config.fullThreshold ? '100%': `${percent}%` 
 
 export default function Battery() {
 	const icon = Icon({
