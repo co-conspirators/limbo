@@ -94,6 +94,7 @@ type AppLauncher = {
 type Battery = {
   rampIcons: Icon[]
   chargingIcon: Icon
+  fullThreshold: number
 } & MouseCommands
 
 /** See the general section for timeFormat */

@@ -99,6 +99,7 @@ const config: Config = {
 				name: 'battery-charging',
 				color: theme.green,
 			},
+			fullThreshold: 97,
 		},
     clock: {
       icon: { name: 'clock', color: theme.text },

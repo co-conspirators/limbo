@@ -35,6 +35,8 @@ const getCountdown = (seconds: number) => {
 		.join(' ')
 }
 
+const formatPercent = (percent: number) => percent > config.fullThreshold ? `${percent}%` : '100%'
+
 export default function Battery() {
 	const icon = Icon({
 		name: IconName.bind(),
@@ -61,7 +63,7 @@ export default function Battery() {
 					Label('', {
 						valign: Align.END,
 						hpack: 'end',
-					}).hook(battery, (self: Gtk.Label) => (self.label = `${battery.percent}%`), 'changed'),
+					}).hook(battery, (self: Gtk.Label) => (self.label = formatPercent(battery.percent)), 'changed'),
 				]),
 			}),
 		],
