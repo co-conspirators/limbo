@@ -1,33 +1,8 @@
-{ lib
-, stdenv
-, buildNpmPackage
-, makeWrapper
-, wrapGAppsHook
-, writeText
-, bun
-, ags
-, curl
-, mako
-, procps
-, unixtools
-, wlinhibit
-, gjs
-, gtk3
-, libpulseaudio
-, upower
-, gnome-bluetooth
-, gtk-layer-shell
-, glib-networking
-, networkmanager
-, libdbusmenu-gtk3
-, gvfs
-, libsoup_3
-, libnotify
-, pam
-, pulseaudio
-, gobject-introspection
-, ...
-}:
+{ lib, stdenv, buildNpmPackage, makeWrapper, wrapGAppsHook, writeText, bun, curl
+, pulseaudio, ags_1, mako, procps, unixtools, wlinhibit, gjs, gtk3
+, libpulseaudio, upower, gnome-bluetooth, gtk-layer-shell, glib-networking
+, networkmanager, libdbusmenu-gtk3, gvfs, libsoup_3, libnotify, pam
+, gobject-introspection, ... }:
 
 let
   npmPackage = buildNpmPackage {
@@ -41,7 +16,7 @@ let
       # to make sure a file exists there (it's gitignored)
       userConfigFile = writeText "user-config.js" "export default {}";
     in ''
-      ln -sf ${ags}/share/com.github.Aylur.ags/types ./types
+      ln -sf ${ags_1}/share/com.github.Aylur.ags/types ./types
       ln -sf ${userConfigFile} ./user-config.js
 
       bun run build
@@ -59,7 +34,7 @@ in stdenv.mkDerivation {
   name = "limbo";
 
   buildInputs = [
-    ags
+    ags_1
     curl
     gjs
     gtk3
@@ -86,7 +61,7 @@ in stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/bin
-    makeWrapper ${ags}/bin/ags $out/bin/limbo \
+    makeWrapper ${ags_1}/bin/ags $out/bin/limbo \
       --prefix PATH : "$binPaths" \
       --add-flags "--config ${npmPackage}/opt/main.js"
   '';
