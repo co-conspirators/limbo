@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     flake-parts.url = "github:hercules-ci/flake-parts";
-    ags.url = "github:Aylur/ags";
-    ags.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ self, flake-parts, ... }:
@@ -49,7 +47,7 @@
 
         overlayAttrs = { inherit (config.packages) limbo; };
 
-        devShells.default = let ags = inputs'.ags.packages.default;
+        devShells.default = let ags = pkgs.ags_1;
         in pkgs.mkShell {
           buildInputs = [ ags ] ++ (with pkgs; [
             bun
