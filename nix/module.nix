@@ -16,6 +16,7 @@ in {
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/limbo";
         Restart = "always";
+        Environment = "GDK_SCALE=${toString cfg.scaling}";
       };
     };
   };

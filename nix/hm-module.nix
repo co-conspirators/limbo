@@ -35,6 +35,7 @@ in {
       Service = {
         ExecStart = "${cfg.package}/bin/limbo";
         Restart = "always";
+        Environment = "GDK_SCALE=${toString cfg.scaling}";
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };

@@ -18,4 +18,10 @@ in {
     default = null;
     description = "Settings for limbo bar, JSON format";
   };
+
+  scaling = mkOption {
+    type = types.float;
+    default = 1;
+    description = "Scaling factor for the bar";
+  };
 }
