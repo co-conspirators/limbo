@@ -20,7 +20,7 @@ in {
   };
 
   scaling = mkOption {
-    type = types.float;
+    type = with types; oneOf [ float int ];
     default = 1;
     description = "Scaling factor for the bar";
   };
