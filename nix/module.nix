@@ -10,7 +10,7 @@ in {
     systemd.user.services.limbo = {
       description = "limbo service";
       path = [ cfg.package ];
-      after = [ "graphical-session-pre.target" ];
+      after = [ "graphical-session.target" ];
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
       serviceConfig = {

@@ -29,7 +29,7 @@ in {
         Description = "Super good bar for wayland build on ags";
         Documentation = "https://github.com/Saghen/limbo";
         PartOf = [ "graphical-session.target" ];
-        After = [ "graphical-session-pre.target" ];
+        After = [ "graphical-session.target" ];
         X-Restart-Triggers = mkIf (configFile != null) "${configFile}";
       };
       Service = {
