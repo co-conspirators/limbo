@@ -209,6 +209,19 @@ const config: Config = {
         },
         onSecondaryClick: 'pavucontrol --tab=4',
       },
+      notifs: {
+        icon: {
+          name: 'bell',
+          color: theme.red,
+        },
+        notifsIcon: {
+          name: 'bell-off',
+          color: theme.red,
+        },
+        openCmd: 'swaync-client -t -sw',
+        statusCmd: 'swaync-client -D',
+        toggleCmd: 'swaync-client -d'
+      },
       volume: {
         rampIcons: [
           { name: 'volume-3', color: theme.flamingo },

@@ -4,6 +4,7 @@ import Brightness from './segments/brightness'
 import Caffeine from './segments/caffeine'
 import DnD from './segments/do-not-disturb'
 import Mic from './segments/mic'
+import Notifs from './segments/notifs'
 import Network from './segments/network'
 import NightLight from './segments/night-light'
 import Toggle from './segments/toggle'
@@ -19,6 +20,7 @@ const segments = {
   brightness: Brightness,
   dnd: DnD,
   mic: Mic,
+  notifs: Notifs,
   network: Network,
   'night-light': NightLight,
   toggle: Toggle,

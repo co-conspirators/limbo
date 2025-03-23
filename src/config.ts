@@ -142,6 +142,7 @@ type QuickSettings = {
     | 'caffeine'
     | 'dnd'
     | 'mic'
+    | 'notifs'
     | 'volume'
     | 'network'
     | 'battery'
@@ -185,6 +186,14 @@ type QuickSettings = {
     icon: Icon
     muteIcon: Icon
   } & Pick<MouseCommands, 'onSecondaryClick'>
+  notifs: {
+    icon: Icon
+    notifsIcon: Icon
+
+    openCmd: string
+    statusCmd: string
+    toggleCmd: string
+  }
   volume: {
     /** Ramp for the volume from max to min */
     rampIcons: Icon[]
