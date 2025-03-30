@@ -2,7 +2,7 @@
 , pulseaudio, ags_1, mako, procps, unixtools, wlinhibit, gjs, gtk3
 , libpulseaudio, upower, gnome-bluetooth, gtk-layer-shell, glib-networking
 , networkmanager, libdbusmenu-gtk3, gvfs, libsoup_3, libnotify, pam
-, gobject-introspection, ... }:
+, gobject-introspection, swaynotificationcenter, ... }:
 
 let
   npmPackage = buildNpmPackage {
@@ -56,8 +56,15 @@ in stdenv.mkDerivation {
   dontUnpack = true;
   dontBuild = true;
 
-  binPaths =
-    lib.makeBinPath [ curl mako procps pulseaudio unixtools.top wlinhibit ];
+  binPaths = lib.makeBinPath [
+    curl
+    mako
+    procps
+    pulseaudio
+    unixtools.top
+    wlinhibit
+    swaynotificationcenter
+  ];
 
   installPhase = ''
     mkdir -p $out/bin
