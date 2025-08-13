@@ -80,27 +80,27 @@ const config: Config = {
       fg: theme.text,
     },
     modules: {
-      left: [ 'app-launcher', 'notifications', 'music' ],
+      left: ['app-launcher', 'notifications', 'music'],
       center: ['workspaces'],
-      right: ['sysmon', 'quick-settings', 'clock'],
+      right: ['sysmon', 'quick-settings', 'battery', 'clock'],
     },
     appLauncher: {
       icon: { name: 'nix-snowflake-white', color: theme.text },
       onPrimaryClick: 'tofi-drun',
     },
-		battery: {
-			rampIcons: [
-				{ name: 'battery-4', color: theme.green },
-				{ name: 'battery-3', color: theme.green },
-				{ name: 'battery-2', color: theme.yellow },
-				{ name: 'battery-1', color: theme.red },
-			],
-			chargingIcon: {
-				name: 'battery-charging',
-				color: theme.green,
-			},
-			fullThreshold: 97,
-		},
+    battery: {
+      rampIcons: [
+        { name: 'battery-4', color: theme.green },
+        { name: 'battery-3', color: theme.green },
+        { name: 'battery-2', color: theme.yellow },
+        { name: 'battery-1', color: theme.red },
+      ],
+      chargingIcon: {
+        name: 'battery-charging',
+        color: theme.green,
+      },
+      fullThreshold: 97,
+    },
     clock: {
       icon: { name: 'clock', color: theme.text },
     },
@@ -220,7 +220,7 @@ const config: Config = {
         },
         openCmd: 'swaync-client -t -sw',
         statusCmd: 'swaync-client -D',
-        toggleCmd: 'swaync-client -d'
+        toggleCmd: 'swaync-client -d',
       },
       volume: {
         rampIcons: [

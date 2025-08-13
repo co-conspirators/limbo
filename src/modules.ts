@@ -1,7 +1,7 @@
 import { Side } from 'src/components/layout'
 
 import AppLauncher from 'src/sections/app-launcher'
-import Battery from 'src/sections/battery'
+import Battery, { enabled as batteryEnabled } from 'src/sections/battery'
 import Clock from 'src/sections/clock'
 import Music from 'src/sections/music'
 import Notifications from 'src/sections/notifications/main'
@@ -17,7 +17,7 @@ const config = allConfig.bar.modules
 // mapping of strings to modules
 const modules = {
   'app-launcher': AppLauncher,
-	battery: Battery,
+  battery: Battery,
   clock: Clock,
   music: Music,
   notifications: Notifications,
@@ -28,23 +28,24 @@ const modules = {
   workspaces: Workspaces,
 }
 
+const moduleConditions = {
+  battery: batteryEnabled,
+}
+
+function getEnabledModules(monitor: number, moduleNames: string[]) {
+  return moduleNames
+    .filter((module) => moduleConditions[module]?.(monitor) ?? true)
+    .map((module) => modules[module](monitor))
+}
+
 export function Left(monitor: number) {
-  return Side(
-    'start',
-    config.left.map((module: string) => modules[module](monitor)),
-  )
+  return Side('start', getEnabledModules(monitor, config.left))
 }
 
 export function Center(monitor: number) {
-  return Side(
-    'center',
-    config.center.map((module: string) => modules[module](monitor)),
-  )
+  return Side('center', getEnabledModules(monitor, config.center))
 }
 
 export function Right(monitor: number) {
-  return Side(
-    'end',
-    config.right.map((module: string) => modules[module](monitor)),
-  )
+  return Side('end', getEnabledModules(monitor, config.right))
 }

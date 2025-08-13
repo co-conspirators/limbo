@@ -14,68 +14,72 @@ const IconName = Variable(rampIcons[0].name)
 const IconColor = Variable(rampIcons[0].color)
 
 const setIcon = ({ name, color }: { name: string; color: string }) => {
-	IconName.setValue(name)
-	IconColor.setValue(color)
+  IconName.setValue(name)
+  IconColor.setValue(color)
 }
 
 const getRampIndex = (percent: number, rampLength: number) =>
-	Math.min(rampLength - 1, Math.floor(rampLength * (percent / 100)))
+  Math.min(rampLength - 1, Math.floor(rampLength * (percent / 100)))
 
 const getCountdown = (seconds: number) => {
-	if (seconds === 0) return '...'
-	const parts = {
-		d: Math.floor(seconds / (60 * 60 * 24)),
-		h: Math.floor((seconds / (60 * 60)) % 24),
-		m: Math.floor((seconds / 60) % 60),
-	}
+  if (seconds === 0) return '...'
+  const parts = {
+    d: Math.floor(seconds / (60 * 60 * 24)),
+    h: Math.floor((seconds / (60 * 60)) % 24),
+    m: Math.floor((seconds / 60) % 60),
+  }
 
-	return Object.keys(parts)
-		.map((key) => (parts[key] ? `${parts[key].toString().padStart(key === 'm' ? 2 : 0, '0')}${key}` : null))
-		.filter((s) => s !== null)
-		.join(' ')
+  return Object.keys(parts)
+    .map((key) => (parts[key] ? `${parts[key].toString().padStart(key === 'm' ? 2 : 0, '0')}${key}` : null))
+    .filter((s) => s !== null)
+    .join(' ')
 }
 
-const formatPercent = (percent: number) => percent > config.fullThreshold ? '100%': `${percent}%` 
+const formatPercent = (percent: number) => (percent > config.fullThreshold ? '100%' : `${percent}%`)
+
+export function enabled() {
+  return battery.available
+}
 
 export default function Battery() {
-	const icon = Icon({
-		name: IconName.bind(),
-		color: IconColor.bind(),
-	}).hook(
-		battery,
-		() => {
-			setIcon(
-				battery.charging
-					? config.chargingIcon
-					: battery.charged
-						? rampIcons[rampIcons.length - 1]
-						: rampIcons[getRampIndex(battery.percent, rampIcons.length)],
-			)
-		},
-		'changed',
-	)
-	return Section(
-		[
-			TransparentButton({
-				...mouseCommandsToButtonProps(config),
-				child: Row([
-					icon,
-					Label('', {
-						valign: Align.END,
-						hpack: 'end',
-					}).hook(battery, (self: Gtk.Label) => (self.label = formatPercent(battery.percent)), 'changed'),
-				]),
-			}),
-		],
-		{
-			margin: 4,
-			spacing: 0,
-		},
-	).hook(
-		battery,
-		(self) => {
-			self.tooltip_markup = `<b>Time Until ${battery.charging ? 'Full' : 'Empty'}:</b> ${getCountdown(battery.time_remaining)}`
-		},
-		'changed',
-	)
+  const icon = Icon({
+    name: IconName.bind(),
+    color: IconColor.bind(),
+  }).hook(
+    battery,
+    () => {
+      setIcon(
+        battery.charging
+          ? config.chargingIcon
+          : battery.charged
+            ? rampIcons[rampIcons.length - 1]
+            : rampIcons[getRampIndex(battery.percent, rampIcons.length)],
+      )
+    },
+    'changed',
+  )
+  return Section(
+    [
+      TransparentButton({
+        ...mouseCommandsToButtonProps(config),
+        child: Row([
+          icon,
+          Label('', {
+            valign: Align.END,
+            hpack: 'end',
+          }).hook(battery, (self: Gtk.Label) => (self.label = formatPercent(battery.percent)), 'changed'),
+        ]),
+      }),
+    ],
+    {
+      margin: 4,
+      spacing: 0,
+    },
+  ).hook(
+    battery,
+    (self) => {
+      self.tooltip_markup = `<b>Time Until ${battery.charging ? 'Full' : 'Empty'}:</b> ${getCountdown(battery.time_remaining)}`
+    },
+    'changed',
+  )
 }
