@@ -30,7 +30,7 @@ in {
         Documentation = "https://github.com/Saghen/limbo";
         PartOf = [ "graphical-session.target" ];
         After = [ "graphical-session.target" ];
-        X-Restart-Triggers = mkIf (configFile != null) "${configFile}";
+        X-Restart-Triggers = mkIf (configFile != null) [ "${configFile}" ];
       };
       Service = {
         ExecStart = "${cfg.package}/bin/limbo";
