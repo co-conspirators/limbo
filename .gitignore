@@ -11,3 +11,4 @@
 .devenv
 .direnv
 nix/result
+/result

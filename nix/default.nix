@@ -1,5 +1,5 @@
-{ lib, stdenv, buildNpmPackage, makeWrapper, wrapGAppsHook, writeText, bun, curl
-, pulseaudio, ags_1, mako, procps, unixtools, wlinhibit, gjs, gtk3
+{ lib, stdenv, buildNpmPackage, makeWrapper, wrapGAppsHook3, writeText, bun
+, curl, pulseaudio, ags_1, mako, procps, unixtools, wlinhibit, gjs, gtk3
 , libpulseaudio, upower, gnome-bluetooth, gtk-layer-shell, glib-networking
 , networkmanager, libdbusmenu-gtk3, gvfs, libsoup_3, libnotify, pam
 , gobject-introspection, swaynotificationcenter, ... }:
@@ -51,7 +51,7 @@ in stdenv.mkDerivation {
     pam
     pulseaudio
   ];
-  nativeBuildInputs = [ makeWrapper wrapGAppsHook gobject-introspection ];
+  nativeBuildInputs = [ makeWrapper wrapGAppsHook3 gobject-introspection ];
 
   dontUnpack = true;
   dontBuild = true;
